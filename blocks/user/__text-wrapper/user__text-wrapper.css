@@ -1,1 +1,6 @@
-.user__text-wrapper {}
+.user__text-wrapper {
+  width: 350px;
+  padding-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
