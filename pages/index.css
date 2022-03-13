@@ -21,14 +21,13 @@
 @import url(../blocks/user/__nick-editor-btn/user__nick-editor-btn.css);
 @import url(../blocks/user/__add-post-btn/user__add-post-btn.css);
 
-@import url(../blocks/posts/posts.css);
-
 @import url(../blocks/cards/cards.css);
 @import url(../blocks/cards/__item/cards__item.css);
 
 @import url(../blocks/card/card.css);
 @import url(../blocks/card/__pic/card__pic.css);
 @import url(../blocks/card/__input/card__input.css);
+@import url(../blocks/card/__text-wrapper/card__text-wrapper.css);
 @import url(../blocks/card/__title/card__title.css);
 @import url(../blocks/card/__like-icon/card__like-icon.css);
 

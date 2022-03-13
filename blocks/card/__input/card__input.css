@@ -1,1 +1,3 @@
-.card__input {}
+.card__input {
+  display: none;
+}
