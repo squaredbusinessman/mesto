@@ -29,7 +29,8 @@
 @import url(../blocks/card/__input/card__input.css);
 @import url(../blocks/card/__text-wrapper/card__text-wrapper.css);
 @import url(../blocks/card/__title/card__title.css);
-@import url(../blocks/card/__like-icon/card__like-icon.css);
+@import url(../blocks/card/__like/card__like.css);
+@import url(../blocks/card/__like/_active/card__like_active.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
