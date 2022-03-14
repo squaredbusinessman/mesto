@@ -1,11 +1,13 @@
 .popup__save-btn {
   width: 100%;
   min-height: 50px;
+  margin-top: 18px;
   background-color: #000;
   color: #fff;
   font-size: 18px;
   line-height: 122%;
   font-weight: 400;
+  text-align: center;
   border: none;
   border-radius: 2px;
   transition: opacity .5s linear;
@@ -15,4 +17,12 @@
   cursor: pointer;
   opacity: .8;
   transition: opacity .2s linear;
+}
+
+@media (min-width: 320px) and (max-width: 560px) {
+  .popup__save-btn {
+    min-height: 46px;
+    margin-top: 15px;
+    font-size: 14px;
+  }
 }

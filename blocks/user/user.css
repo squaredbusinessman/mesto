@@ -1,7 +1,14 @@
 .user {
-  margin-bottom: 47px;
+  margin: 0 auto 47px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   font-family: 'Inter', Arial,  sans-serif;
+}
+
+@media (min-width: 560px) and (max-width: 885px) {
+  .user {
+    width: calc(100% - 40px*2);
+
+  }
 }

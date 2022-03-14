@@ -36,3 +36,22 @@
   opacity: .6;
   transition: opacity .2s linear;
 }
+
+@media (min-width: 320px) and (max-width: 560px) {
+  .popup__close-btn {
+    width: 20px;
+    height: 20px;
+    top: -36px;
+    right: 0;
+  }
+
+  .popup__close-btn:before {
+    width: 20px;
+    height: 2px;
+  }
+
+  .popup__close-btn:after {
+    width: 20px;
+    height: 2px;
+  }
+}
