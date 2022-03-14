@@ -1,11 +1,13 @@
 // Константы
 ESC_KEY = 'Escape';
+
 // Необходимые элементы формы popup
 let popupElement = document.querySelector('.popup');
 let formElement = popupElement.querySelector('.popup__form');
 let nameInputElement = formElement.querySelector('.popup__name');
 let aboutInputElement = formElement.querySelector('.popup__about');
 let popupCloseButton = popupElement.querySelector('.popup__close-btn');
+
 // Необходимые элементы блока user
 let userSectionElement = document.querySelector('.user');
 let userNameElement = userSectionElement.querySelector('.user__name');
@@ -17,6 +19,7 @@ function openPopup() {
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
     nickEditButton.removeEventListener('click', openPopup);
+    document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
 function onEscKeyClosePopup(evt) {
@@ -25,6 +28,8 @@ function onEscKeyClosePopup(evt) {
         nameInputElement.value = userNameElement.textContent;
         aboutInputElement.value = userAboutElement.textContent;
     }
+    document.removeEventListener('keyup', onEscKeyClosePopup);
+    nickEditButton.addEventListener('click', openPopup);
 }
 
 function closePopup() {
@@ -32,6 +37,7 @@ function closePopup() {
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
     document.removeEventListener('keyup', onEscKeyClosePopup);
+    nickEditButton.addEventListener('click', openPopup);
 }
 
 function formSubmitHandler(evt) {
@@ -49,5 +55,4 @@ function formSubmitHandler(evt) {
 
 nickEditButton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
-document.addEventListener('keyup', onEscKeyClosePopup);
 formElement.addEventListener('submit', formSubmitHandler);

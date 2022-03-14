@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-@media (min-width: 320px) and (max-width: 560px) {
+@media (min-width: 320px) and (max-width: 767px) {
   .popup__wrapper {
     width: 282px;
     min-height: 322px;

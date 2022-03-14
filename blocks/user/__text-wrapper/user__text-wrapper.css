@@ -6,7 +6,7 @@
   flex-wrap: wrap;
 }
 
-@media (min-width: 320px) and (max-width: 559px) {
+@media (min-width: 320px) and (max-width: 767px) {
   .user__text-wrapper {
     padding: 0;
     margin: 0 auto 36px;
