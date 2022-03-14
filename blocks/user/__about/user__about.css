@@ -1,5 +1,12 @@
 .user__about {
   font-size: 18px;
   line-height: 122%;
+  font-weight: 400;
+}
 
+@media (min-width: 320px) and (max-width: 767px) {
+  .user__about {
+    font-size: 14px;
+    text-align: center;
+  }
 }

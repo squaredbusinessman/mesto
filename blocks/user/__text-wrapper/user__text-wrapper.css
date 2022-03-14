@@ -1,6 +1,14 @@
 .user__text-wrapper {
-  width: 350px;
+  position: relative;
   padding-left: 30px;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+}
+
+@media (min-width: 320px) and (max-width: 559px) {
+  .user__text-wrapper {
+    padding: 0;
+    margin: 0 auto 36px;
+  }
 }

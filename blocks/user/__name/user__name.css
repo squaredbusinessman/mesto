@@ -1,6 +1,15 @@
 .user__name {
-  margin: 0 18px 0 0;
+  margin: 0;
   font-size: 42px;
   line-height: 114%;
   font-weight: 500;
+}
+
+@media (min-width: 320px) and (max-width: 559px) {
+  .user__name {
+    margin: 0 auto;
+    font-size: 27px;
+    line-height: 122%;
+    text-align: center;
+  }
 }
