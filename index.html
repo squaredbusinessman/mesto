@@ -18,6 +18,7 @@
 </header>
 <main>
   <section class="user">
+    <h2 class="visually-hidden">Страница пользователя</h2>
     <picture>
       <source srcset="./images/user/avatar.jpg, ./images/user/avatar-2x.jpg 2x">
       <img class="user__avatar" src="./images/user/avatar.jpg" alt="Аватарка пользователя">
@@ -29,13 +30,13 @@
     </div>
     <button type="button" class="user__add-post-btn"></button>
   </section>
-
   <section>
+    <h2 class="visually-hidden">Публикации пользователя</h2>
     <ul class="cards">
       <li class="card">
         <img class="card__pic" src="./images/gallary/ai-petri.jpeg" alt="Фотокарточка Ай Петри">
         <div class="card__text-wrapper">
-          <h2 class="card__title">Ай-Петри</h2>
+          <h3 class="card__title">Ай-Петри</h3>
           <label class="card__like">
             <input class="card__input" type="checkbox">
           </label>
@@ -44,7 +45,7 @@
       <li class="card">
         <img class="card__pic" src="./images/gallary/ladojskie-schheri.jpeg" alt="Фотокарточка ладожские шхеры">
         <div class="card__text-wrapper">
-          <h2 class="card__title">Ладожские Шхеры</h2>
+          <h3 class="card__title">Ладожские Шхеры</h3>
           <label class="card__like card__like_active">
             <input class="card__input" type="checkbox">
           </label>
@@ -53,7 +54,7 @@
       <li class="card">
         <img class="card__pic" src="./images/gallary/margit.jpeg" alt="Фотокарточка остров Маргит">
         <div class="card__text-wrapper">
-          <h2 class="card__title">Остров Маргит</h2>
+          <h3 class="card__title">Остров Маргит</h3>
           <label class="card__like">
             <input class="card__input" type="checkbox">
           </label>
@@ -62,7 +63,7 @@
       <li class="card">
         <img class="card__pic" src="./images/gallary/kiji.jpeg" alt="Фотокарточка Кижи">
         <div class="card__text-wrapper">
-          <h2 class="card__title">Кижи</h2>
+          <h3 class="card__title">Кижи</h3>
           <label class="card__like">
             <input class="card__input" type="checkbox">
           </label>
@@ -71,7 +72,7 @@
       <li class="card">
         <img class="card__pic" src="./images/gallary/gorky-leninskie.jpeg" alt="Фотокарточка Горки Ленинские">
         <div class="card__text-wrapper">
-          <h2 class="card__title">Ленинские горки</h2>
+          <h3 class="card__title">Ленинские горки</h3>
           <label class="card__like">
             <input class="card__input" type="checkbox">
           </label>
@@ -80,7 +81,7 @@
       <li class="card">
         <img class="card__pic" src="./images/gallary/nicolo-lenivets.jpeg" alt="Фотокарточка Николо - Ленивец">
         <div class="card__text-wrapper">
-          <h2 class="card__title">Никола-Ленивец</h2>
+          <h3 class="card__title">Никола-Ленивец</h3>
           <label class="card__like">
             <input class="card__input" type="checkbox">
           </label>
@@ -88,7 +89,6 @@
       </li>
     </ul>
   </section>
-
   <div class="popup visually-hidden">
     <div class="popup__wrapper">
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -104,11 +104,11 @@
       <button type="button" class="popup__close-btn"></button>
     </div>
   </div>
-
 </main>
 <footer class="footer">
   <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
 </footer>
+
 <script src="./blocks/popup/popup.js"></script>
 </body>
 </html>
