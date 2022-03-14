@@ -13,16 +13,28 @@ let userNameElement = userSectionElement.querySelector('.user__name');
 let userAboutElement = userSectionElement.querySelector('.user__about');
 let nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 
-nickEditButton.addEventListener('click', function () {
+function openPopup() {
     popupElement.classList.remove('visually-hidden');
-})
+    nameInputElement.value = userNameElement.textContent;
+    aboutInputElement.value = userAboutElement.textContent;
+    nickEditButton.removeEventListener('click', openPopup);
+}
 
-popupCloseButton.addEventListener('click', function () {
-    popupElement.classList.add('visually-hidden');
-})
-
-document.addEventListener('keyup', function (evt) {
+function onEscKeyClosePopup(evt) {
     if (evt.key === ESC_KEY) {
         popupElement.classList.add('visually-hidden');
+        nameInputElement.value = userNameElement.textContent;
+        aboutInputElement.value = userAboutElement.textContent;
     }
-})
+}
+
+function closePopup() {
+    popupElement.classList.add('visually-hidden');
+    nameInputElement.value = userNameElement.textContent;
+    aboutInputElement.value = userAboutElement.textContent;
+    document.removeEventListener('keyup', onEscKeyClosePopup);
+}
+
+nickEditButton.addEventListener('click', openPopup);
+popupCloseButton.addEventListener('click', closePopup);
+document.addEventListener('keyup', onEscKeyClosePopup);
