@@ -1,13 +1,12 @@
 // Константы
 ESC_KEY = 'Escape';
-// Необходимые элементы формы
+// Необходимые элементы формы popup
 let popupElement = document.querySelector('.popup');
 let formElement = popupElement.querySelector('.popup__form');
 let nameInputElement = formElement.querySelector('.popup__name');
 let aboutInputElement = formElement.querySelector('.popup__about');
 let popupCloseButton = popupElement.querySelector('.popup__close-btn');
-let popupSaveButton = formElement.querySelector('.popup__save-btn');
-// Необходимые элементы
+// Необходимые элементы блока user
 let userSectionElement = document.querySelector('.user');
 let userNameElement = userSectionElement.querySelector('.user__name');
 let userAboutElement = userSectionElement.querySelector('.user__about');
@@ -35,6 +34,20 @@ function closePopup() {
     document.removeEventListener('keyup', onEscKeyClosePopup);
 }
 
+function formSubmitHandler(evt) {
+    evt.preventDefault();
+
+    let nameValue = nameInputElement.value;
+    let aboutValue = aboutInputElement.value;
+
+    userNameElement.textContent = nameValue;
+    userAboutElement.textContent = aboutValue;
+
+    closePopup();
+    formElement.removeEventListener('submit', formSubmitHandler);
+}
+
 nickEditButton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
 document.addEventListener('keyup', onEscKeyClosePopup);
+formElement.addEventListener('submit', formSubmitHandler);
