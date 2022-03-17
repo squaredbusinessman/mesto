@@ -12,6 +12,7 @@ let popupCloseButton = popupElement.querySelector('.popup__close-btn');
 let userSectionElement = document.querySelector('.user');
 let userNameElement = userSectionElement.querySelector('.user__name');
 let userAboutElement = userSectionElement.querySelector('.user__about');
+
 let nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 
 function openPopup() {
@@ -41,6 +42,7 @@ function closePopup() {
 }
 
 function formSubmitHandler(evt) {
+    console.log(evt);
     evt.preventDefault();
 
     let nameValue = nameInputElement.value;
@@ -50,7 +52,6 @@ function formSubmitHandler(evt) {
     userAboutElement.textContent = aboutValue;
 
     closePopup();
-    formElement.removeEventListener('submit', formSubmitHandler);
 }
 
 nickEditButton.addEventListener('click', openPopup);
