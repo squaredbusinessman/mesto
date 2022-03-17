@@ -6,32 +6,11 @@
   right: -40px;
   border: 1px solid #fff;
   background-color: #000;
+  background-image: url(../../../images/user/pencil.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
   transition: opacity .5s linear;
   align-self: center;
-}
-
-.user__nick-editor-btn:before {
-  content: "";
-  position: absolute;
-  top: 9px;
-  left: 8px;
-  background-color: #fff;
-  width: 8px;
-  height: 2px;
-  transform: rotate(-45deg);
-}
-
-.user__nick-editor-btn:after {
-  content: "";
-  position: absolute;
-  top: 13px;
-  left: 7px;
-  transform: rotate(-135deg);
-  width: 0;
-  height: 0;
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
-  border-bottom: 2px solid #fff;
 }
 
 .user__nick-editor-btn:hover {
@@ -46,15 +25,5 @@
     height: 18px;
     top: 8px;
     right: -28px;
-  }
-
-  .user__nick-editor-btn:before {
-    top: 6px;
-    left: 5px;
-  }
-
-  .user__nick-editor-btn:after {
-    top: 10px;
-    left: 4px;
   }
 }
