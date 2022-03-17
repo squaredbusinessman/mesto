@@ -4,8 +4,8 @@ ESC_KEY = 'Escape';
 // Необходимые элементы формы popup
 let popupElement = document.querySelector('.popup');
 let formElement = popupElement.querySelector('.popup__form');
-let nameInputElement = formElement.querySelector('.popup__name');
-let aboutInputElement = formElement.querySelector('.popup__about');
+let nameInputElement = formElement.querySelector('.popup__input_type_name');
+let aboutInputElement = formElement.querySelector('.popup__input_type_about');
 let popupCloseButton = popupElement.querySelector('.popup__close-btn');
 
 // Необходимые элементы блока user
