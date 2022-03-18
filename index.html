@@ -12,64 +12,127 @@
 <body class="index-page">
 <header class="header">
   <a href="#">
-    <img class="header__logo" src="./images/logo/logo-mesto.svg" alt="Mesto логотип">
+    <img
+            class="header__logo"
+            src="./images/logo/logo-mesto.svg"
+            alt="Mesto логотип">
   </a>
 </header>
 <main>
   <section class="user">
     <picture>
       <source srcset="./images/user/avatar.jpg, ./images/user/avatar-2x.jpg 2x">
-      <img class="user__avatar" src="./images/user/avatar.jpg" alt="Аватарка пользователя">
+      <img
+              class="user__avatar"
+              src="./images/user/avatar.jpg"
+              alt="Аватарка пользователя"
+      >
     </picture>
     <div class="user__text-wrapper">
       <h1 class="user__name">Жак-Ив Кусто</h1>
-      <button type="button" class="user__nick-editor-btn"></button>
+      <button
+              type="button"
+              class="user__nick-editor-btn"
+              aria-label="Кнопка редактирования Имени и доп. информации пользователя"
+      ></button>
       <p class="user__about">Исследователь океана</p>
     </div>
-    <button type="button" class="user__add-post-btn"></button>
+    <button
+            type="button"
+            class="user__add-post-btn"
+            aria-label="Кнопка создания новой публикации"
+    ></button>
   </section>
   <section>
     <ul class="cards">
       <li class="card">
-        <img class="card__pic" src="./images/gallary/ai-petri.jpeg" alt="Фотокарточка Ай Петри">
+        <img
+                class="card__pic"
+                src="./images/gallary/ai-petri.jpeg"
+                alt="Фотокарточка Ай Петри"
+        >
         <div class="card__text-wrapper">
           <h2 class="card__title">Ай-Петри</h2>
-          <button type="button" class="card__like"></button>
+          <button
+                  type="button"
+                  class="card__like"
+                  aria-label="Кнопка нравится"
+          ></button>
         </div>
       </li>
       <li class="card">
-        <img class="card__pic" src="./images/gallary/ladojskie-schheri.jpeg" alt="Фотокарточка ладожские шхеры">
+        <img
+                class="card__pic"
+                src="./images/gallary/ladojskie-schheri.jpeg"
+                alt="Фотокарточка ладожские шхеры"
+        >
         <div class="card__text-wrapper">
           <h2 class="card__title">Ладожские Шхеры</h2>
-          <button type="button" class="card__like"></button>
+          <button
+                  type="button"
+                  class="card__like"
+                  aria-label="Кнопка нравится"
+          ></button>
         </div>
       </li>
       <li class="card">
-        <img class="card__pic" src="./images/gallary/margit.jpeg" alt="Фотокарточка остров Маргит">
+        <img
+                class="card__pic"
+                src="./images/gallary/margit.jpeg"
+                alt="Фотокарточка остров Маргит"
+        >
         <div class="card__text-wrapper">
           <h2 class="card__title">Остров Маргит</h2>
-          <button type="button" class="card__like"></button>
+          <button
+                  type="button"
+                  class="card__like"
+                  aria-label="Кнопка нравится"
+          ></button>
         </div>
       </li>
       <li class="card">
-        <img class="card__pic" src="./images/gallary/kiji.jpeg" alt="Фотокарточка Кижи">
+        <img
+                class="card__pic"
+                src="./images/gallary/kiji.jpeg"
+                alt="Фотокарточка Кижи"
+        >
         <div class="card__text-wrapper">
           <h2 class="card__title">Кижи</h2>
-          <button type="button" class="card__like"></button>
+          <button
+                  type="button"
+                  class="card__like"
+                  aria-label="Кнопка нравится"
+          ></button>
         </div>
       </li>
       <li class="card">
-        <img class="card__pic" src="./images/gallary/gorky-leninskie.jpeg" alt="Фотокарточка Горки Ленинские">
+        <img
+                class="card__pic"
+                src="./images/gallary/gorky-leninskie.jpeg"
+                alt="Фотокарточка Горки Ленинские"
+        >
         <div class="card__text-wrapper">
           <h2 class="card__title">Ленинские горки</h2>
-          <button type="button" class="card__like"></button>
+          <button
+                  type="button"
+                  class="card__like"
+                  aria-label="Кнопка нравится"
+          ></button>
         </div>
       </li>
       <li class="card">
-        <img class="card__pic" src="./images/gallary/nicolo-lenivets.jpeg" alt="Фотокарточка Никола - Ленивец">
+        <img
+                class="card__pic"
+                src="./images/gallary/nicolo-lenivets.jpeg"
+                alt="Фотокарточка Никола - Ленивец"
+        >
         <div class="card__text-wrapper">
           <h2 class="card__title">Никола-Ленивец</h2>
-          <button type="button" class="card__like card__like_active"></button>
+          <button
+                  type="button"
+                  class="card__like card__like_active"
+                  aria-label="Кнопка нравится"
+          ></button>
         </div>
       </li>
     </ul>
@@ -77,16 +140,39 @@
   <div class="popup visually-hidden">
     <div class="popup__wrapper">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form" name="editProfileForm" action="#" method="post">
+      <form
+              class="popup__form"
+              name="editProfileForm"
+              action="#"
+              method="post">
         <label>
-          <input type="text" class="popup__input popup__input_type_name" id="popup-user-name">
+          <input
+                  type="text"
+                  class="popup__input popup__input_type_name"
+                  id="popup-user-name"
+                  aria-label="Поле ввода имени пользователя"
+          >
         </label>
         <label>
-          <input type="text" class="popup__input popup__input_type_about" id="popup-user-about">
+          <input
+                  type="text"
+                  class="popup__input popup__input_type_about"
+                  id="popup-user-about"
+                  aria-label="Поле ввода информации о пользователе"
+          >
         </label>
-        <button type="submit" class="popup__save-btn">Сохранить</button>
+        <button
+                type="submit"
+                class="popup__save-btn"
+        >
+          Сохранить
+        </button>
       </form>
-      <button type="button" class="popup__close-btn"></button>
+      <button
+              type="button"
+              class="popup__close-btn"
+              aria-label="Кнопка закрытия попапа"
+      ></button>
     </div>
   </div>
 </main>
