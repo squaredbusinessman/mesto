@@ -6,6 +6,7 @@
   border: 2px solid #fff;
   background-color: #000;
   transition: opacity .5s linear;
+  border-radius: 2px;
 }
 
 .user__add-post-btn:before {
@@ -26,7 +27,6 @@
   top: 12px;
   left: 70px;
   background-color: #fff;
-  border-radius: 2px;
 }
 
 .user__add-post-btn:hover {
