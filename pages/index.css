@@ -4,9 +4,6 @@
 /* Fonts */
 @import url(../vendor/fonts/fonts.css);
 
-/* Common blocks */
-@import url(../blocks/visually-hidden/visually-hidden.css);
-
 /* Blocks */
 @import url(../blocks/index-page/index-page.css);
 
