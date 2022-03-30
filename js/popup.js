@@ -177,6 +177,9 @@ function createCards(cardsArr) {
         cardPicElement.alt = card.name;
         cardTitleElement.textContent = card.name;
 
+        // обработчик лайка
+        cardElement.addEventListener('click', likeButtonHandler);
+
         // отображаем на странице
         cardsContainer.append(cardElement);
     })
@@ -188,6 +191,13 @@ function deleteAllCards() {
     cards.forEach(function (card) {
         card.remove();
     })
+}
+
+// Функция лайка
+function likeButtonHandler(evt) {
+    if (evt.target.classList.contains('card__like')) {
+        evt.target.classList.toggle('card__like_active')
+    }
 }
 
 createCards(initialCards);
