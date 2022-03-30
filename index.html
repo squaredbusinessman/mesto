@@ -137,7 +137,7 @@
       </li>
     </ul>
   </section>
-  <div class="popup visually-hidden">
+  <div class="popup popup_id_profile-edit visually-hidden">
     <div class="popup__wrapper">
       <h2 class="popup__title">Редактировать профиль</h2>
       <form
@@ -175,12 +175,53 @@
       ></button>
     </div>
   </div>
+
+  <div class="popup popup_id_new-post visually-hidden">
+    <div class="popup__wrapper">
+      <h2 class="popup__title">Новое место</h2>
+      <form
+              class="popup__form"
+              name="newPostForm"
+              action="#"
+              method="post">
+        <label>
+          <input
+                  type="text"
+                  class="popup__input popup__input_type_name"
+                  id="popup-place-name"
+                  aria-label="Поле ввода названия"
+                  placeholder="Название"
+          >
+        </label>
+        <label>
+          <input
+                  type="text"
+                  class="popup__input popup__input_type_about"
+                  id="popup-place-src"
+                  aria-label="Поле ввода ссылки"
+                  placeholder="Ссылка на картинку"
+          >
+        </label>
+        <button
+                type="submit"
+                class="popup__save-btn"
+        >
+          Создать
+        </button>
+      </form>
+      <button
+              type="button"
+              class="popup__close-btn"
+              aria-label="Кнопка закрытия попапа"
+      ></button>
+    </div>
+  </div>
 </main>
 <footer class="footer">
   <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
 </footer>
 
 <script src="./js/popup.js"></script>
-<script src="./js/cards.js"></script>
+<script src="./js/cards-data.js"></script>
 </body>
 </html>

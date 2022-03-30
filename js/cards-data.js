@@ -1,3 +1,5 @@
+export default initialCards;
+
 const initialCards = [
     {
         name: 'Башни Петро нас',
