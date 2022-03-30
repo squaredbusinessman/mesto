@@ -1,7 +1,33 @@
-import initialCards from "./cards-data";
-
 // Константы
 const ESC_KEY = 'Escape';
+
+// Моковые данные
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
 
 // Используемые в проекте попапы
 let profileEditPopup = document.querySelector('.popup_id_profile-edit');
@@ -20,6 +46,18 @@ let userNameElement = userSectionElement.querySelector('.user__name');
 let userAboutElement = userSectionElement.querySelector('.user__about');
 let nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 let addNewPostButton = userSectionElement.querySelector('.user__add-post-btn');
+
+// Необходимые элементы для отрисовки карточек
+let cardsContainer = document.querySelector('.cards');
+
+// Функция проверки наличия класса .visually-hidden у попапов
+function hasVisibleClass(popups) {
+    popups.forEach(function (el) {
+        if (!el.classList.contains('visually-hidden')) {
+            el.classList.add('visually-hidden');
+        }
+    });
+}
 
 // Функция открытия попапов
 function openPopup(evt) {
@@ -42,9 +80,7 @@ function openPopup(evt) {
 // Функция закрытия попапов нажатием ESC
 function onEscKeyClosePopup(evt) {
     if (evt.key === ESC_KEY) {
-        popupElements.forEach(function (el) {
-            el.classList.add('visually-hidden');
-        });
+        hasVisibleClass(popupElements);
         nameInputElement.value = userNameElement.textContent;
         aboutInputElement.value = userAboutElement.textContent;
     }
@@ -57,9 +93,7 @@ function onEscKeyClosePopup(evt) {
 function closePopup(evt = null) {
 
     if (evt === null) {
-        popupElements.forEach(function (el) {
-            el.classList.add('visually-hidden');
-        })
+        hasVisibleClass(popupElements);
         nickEditButton.addEventListener('click', openPopup);
         addNewPostButton.addEventListener('click', openPopup);
     } else if (evt.target.parentElement.closest('.popup_id_new-post')) {
@@ -93,6 +127,27 @@ function formSubmitHandler(evt) {
     }
 }
 
+// Функция создания и добавления карточек из моковых данных
+function createCards(cards) {
+
+    cards.forEach(function (card) {
+        const cardTemplate = document.querySelector('#card-template').content;
+
+        // клонируем содержимое тега template
+        const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+
+        // наполняем содержимым
+        cardElement.querySelector('.card__pic').src = card.link;
+        cardElement.querySelector('.card__pic').alt = card.name;
+        cardElement.querySelector('.card__title').textContent = card.name;
+
+        // отображаем на странице
+        cardsContainer.append(cardElement);
+
+    })
+}
+
+createCards(initialCards);
 nickEditButton.addEventListener('click', openPopup);
 addNewPostButton.addEventListener('click', openPopup);
 popupCloseButtons.forEach(function (el) {
