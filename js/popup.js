@@ -30,15 +30,20 @@ const initialCards = [
 ];
 
 // Используемые в проекте попапы
-let profileEditPopup = document.querySelector('.popup_id_profile-edit');
-let addNewPostPopup = document.querySelector('.popup_id_new-post');
+const profileEditPopup = document.querySelector('.popup_id_profile-edit');
+const addNewPostPopup = document.querySelector('.popup_id_new-post');
 
 // Необходимые элементы формы popup
-let popupElements = document.querySelectorAll('.popup');
-let formElement = popupElements[0].querySelector('.popup__form');
-let nameInputElement = formElement.querySelector('.popup__input_type_name');
-let aboutInputElement = formElement.querySelector('.popup__input_type_about');
-let popupCloseButtons = document.querySelectorAll('.popup__close-btn');
+const popupElements = document.querySelectorAll('.popup');
+const formElements = document.querySelectorAll('.popup__form');
+const editFormElement = popupElements[0].querySelector('.popup__form');
+const nameInputElement = editFormElement.querySelector('.popup__input_type_name');
+const aboutInputElement = editFormElement.querySelector('.popup__input_type_about');
+const postFormElement = popupElements[1].querySelector('.popup__form');
+const picNameElement = postFormElement.querySelector('.popup__input_type_name');
+const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
+
+const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 // Необходимые элементы блока user
 let userSectionElement = document.querySelector('.user');
@@ -49,6 +54,8 @@ let addNewPostButton = userSectionElement.querySelector('.user__add-post-btn');
 
 // Необходимые элементы для отрисовки карточек
 let cardsContainer = document.querySelector('.cards');
+const cardTemplate = document.querySelector('#card-template').content;
+
 
 // Функция проверки наличия класса .visually-hidden у попапов
 function hasVisibleClass(popups) {
@@ -63,6 +70,7 @@ function hasVisibleClass(popups) {
 function openPopup(evt) {
     switch (evt.target) {
         case nickEditButton:
+
             profileEditPopup.classList.remove('visually-hidden');
             nameInputElement.value = userNameElement.textContent;
             aboutInputElement.value = userAboutElement.textContent;
@@ -70,6 +78,8 @@ function openPopup(evt) {
             break;
         case addNewPostButton:
             addNewPostPopup.classList.remove('visually-hidden');
+            picNameElement.value = '';
+            picSrcElement.value = '';
             addNewPostButton.removeEventListener('click', openPopup);
             break;
     }
@@ -98,8 +108,8 @@ function closePopup(evt = null) {
         addNewPostButton.addEventListener('click', openPopup);
     } else if (evt.target.parentElement.closest('.popup_id_new-post')) {
         addNewPostPopup.classList.add('visually-hidden');
-        nameInputElement.value = '';
-        aboutInputElement.value = '';
+        picNameElement.value = '';
+        picSrcElement.value = '';
         addNewPostButton.addEventListener('click', openPopup);
     } else if (evt.target.parentElement.closest('.popup_id_profile-edit')) {
         profileEditPopup.classList.add('visually-hidden');
@@ -114,36 +124,69 @@ function closePopup(evt = null) {
 // Функция отправки формы попапов
 function formSubmitHandler(evt) {
     evt.preventDefault();
-    if (evt.target.name === 'editProfileForm') {
-        let nameValue = nameInputElement.value;
-        let aboutValue = aboutInputElement.value;
+    switch (evt.target.name) {
+        case 'editProfileForm':
+            userNameElement.textContent = nameInputElement.value;
+            userAboutElement.textContent = aboutInputElement.value;
+            closePopup();
+            break;
+        case 'newPostForm':
+            if (postFormElement.value !== '' && picSrcElement.value !== '') {
+                const newCard = {
+                    name: picNameElement.value,
+                    link: picSrcElement.value
+                }
 
-        userNameElement.textContent = nameValue;
-        userAboutElement.textContent = aboutValue;
-        closePopup();
-    }   else if (evt.target.name === 'newPostForm') {
-
-        closePopup();
+                initialCards.unshift(newCard);
+                deleteAllCards();
+                createCards(initialCards);
+            }
+                    closePopup();
     }
+    // if (evt.target.name === 'editProfileForm') {
+    //     userNameElement.textContent = nameInputElement.value;
+    //     userAboutElement.textContent = aboutInputElement.value;
+    //     closePopup();
+    // }   else if (evt.target.name === 'newPostForm') {
+    //     if (nameInputElement && aboutInputElement) {
+    //         const newCard = {
+    //             name: nameInputElement.value,
+    //             link: aboutInputElement.value
+    //         }
+    //
+    //         initialCards.unshift(newCard);
+    //         createCards(newCard);
+    //     }
+    //     closePopup();
+    // }
+
+    // ВОПРОС К РЕВЬЮЕРУ: Не знаю как лучше сделать, через switch или через if, а может для наглядности где-то switch, а где-то if?
 }
 
 // Функция создания и добавления карточек из моковых данных
-function createCards(cards) {
+function createCards(cardsArr) {
 
-    cards.forEach(function (card) {
-        const cardTemplate = document.querySelector('#card-template').content;
-
+    cardsArr.forEach(function (card) {
         // клонируем содержимое тега template
         const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
-        // наполняем содержимым
-        cardElement.querySelector('.card__pic').src = card.link;
-        cardElement.querySelector('.card__pic').alt = card.name;
-        cardElement.querySelector('.card__title').textContent = card.name;
+        const cardPicElement = cardElement.querySelector('.card__pic');
+        const cardTitleElement = cardElement.querySelector('.card__title');
+        // наполняем содержимым клонированный шаблон
+        cardPicElement.src = card.link;
+        cardPicElement.alt = card.name;
+        cardTitleElement.textContent = card.name;
 
         // отображаем на странице
         cardsContainer.append(cardElement);
+    })
+}
 
+// Функция удаления карточек
+function deleteAllCards() {
+    const cards = cardsContainer.querySelectorAll('.card');
+    cards.forEach(function (card) {
+        card.remove();
     })
 }
 
@@ -153,4 +196,6 @@ addNewPostButton.addEventListener('click', openPopup);
 popupCloseButtons.forEach(function (el) {
     el.addEventListener('click', closePopup);
 });
-formElement.addEventListener('submit', formSubmitHandler);
+formElements.forEach(function (el) {
+    el.addEventListener('submit', formSubmitHandler);
+});
