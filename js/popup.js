@@ -131,36 +131,29 @@ function formSubmitHandler(evt) {
             closePopup();
             break;
         case 'newPostForm':
+            const newCardsArr = [];
+            const cards = cardsContainer.querySelectorAll('.card');
+            const renderedCards = Array.from(cards, function(el) {
+                return {
+                    name: el.querySelector('.card__pic').alt,
+                    link: el.querySelector('.card__pic').src
+                }
+            });
+
             if (postFormElement.value !== '' && picSrcElement.value !== '') {
                 const newCard = {
                     name: picNameElement.value,
                     link: picSrcElement.value
                 }
 
-                initialCards.unshift(newCard);
+                newCardsArr.unshift(newCard);
                 deleteAllCards();
-                createCards(initialCards);
+                createCards(newCardsArr.concat(renderedCards));
             }
-                    closePopup();
-    }
-    // if (evt.target.name === 'editProfileForm') {
-    //     userNameElement.textContent = nameInputElement.value;
-    //     userAboutElement.textContent = aboutInputElement.value;
-    //     closePopup();
-    // }   else if (evt.target.name === 'newPostForm') {
-    //     if (nameInputElement && aboutInputElement) {
-    //         const newCard = {
-    //             name: nameInputElement.value,
-    //             link: aboutInputElement.value
-    //         }
-    //
-    //         initialCards.unshift(newCard);
-    //         createCards(newCard);
-    //     }
-    //     closePopup();
-    // }
 
-    // ВОПРОС К РЕВЬЮЕРУ: Не знаю как лучше сделать, через switch или через if, а может для наглядности где-то switch, а где-то if?
+            closePopup();
+            break;
+    }
 }
 
 // Функция создания и добавления карточек из моковых данных
@@ -170,15 +163,21 @@ function createCards(cardsArr) {
         // клонируем содержимое тега template
         const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
+        // необходимые элементы каждой карточки
         const cardPicElement = cardElement.querySelector('.card__pic');
         const cardTitleElement = cardElement.querySelector('.card__title');
+        const removeButtonElement = cardElement.querySelector('.card__remove');
+
+
         // наполняем содержимым клонированный шаблон
         cardPicElement.src = card.link;
         cardPicElement.alt = card.name;
         cardTitleElement.textContent = card.name;
 
         // обработчик лайка
+        removeButtonElement.addEventListener('click', removeButtonHandler);
         cardElement.addEventListener('click', likeButtonHandler);
+
 
         // отображаем на странице
         cardsContainer.append(cardElement);
@@ -193,11 +192,16 @@ function deleteAllCards() {
     })
 }
 
-// Функция лайка
+// Функция кнопки лайка
 function likeButtonHandler(evt) {
     if (evt.target.classList.contains('card__like')) {
         evt.target.classList.toggle('card__like_active')
     }
+}
+
+// Функция кнопки удаления карточки
+function removeButtonHandler(evt) {
+    evt.currentTarget.closest('.card').remove();
 }
 
 createCards(initialCards);
