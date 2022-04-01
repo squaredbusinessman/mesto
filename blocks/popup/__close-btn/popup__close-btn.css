@@ -37,6 +37,10 @@
   transition: opacity .2s linear;
 }
 
+.popup__container .popup__close-btn {
+  right: 0;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
   .popup__close-btn {
     width: 20px;

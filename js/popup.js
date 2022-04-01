@@ -29,9 +29,12 @@ const initialCards = [
     }
 ];
 
+
+
 // Используемые в проекте попапы
 const profileEditPopup = document.querySelector('.popup_id_profile-edit');
 const addNewPostPopup = document.querySelector('.popup_id_new-post');
+const bigPicturePopup = document.querySelector('.popup_id_big-picture');
 
 // Необходимые элементы формы popup
 const popupElements = document.querySelectorAll('.popup');
@@ -42,22 +45,23 @@ const aboutInputElement = editFormElement.querySelector('.popup__input_type_abou
 const postFormElement = popupElements[1].querySelector('.popup__form');
 const picNameElement = postFormElement.querySelector('.popup__input_type_name');
 const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
-
+const bigPicElement = bigPicturePopup.querySelector('.popup__img');
+const bigPicNameElement = bigPicturePopup.querySelector('.popup__name');
 const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 // Необходимые элементы блока user
-let userSectionElement = document.querySelector('.user');
-let userNameElement = userSectionElement.querySelector('.user__name');
-let userAboutElement = userSectionElement.querySelector('.user__about');
-let nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
-let addNewPostButton = userSectionElement.querySelector('.user__add-post-btn');
+const userSectionElement = document.querySelector('.user');
+const userNameElement = userSectionElement.querySelector('.user__name');
+const userAboutElement = userSectionElement.querySelector('.user__about');
+const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
+const addNewPostButton = userSectionElement.querySelector('.user__add-post-btn');
 
-// Необходимые элементы для отрисовки карточек
-let cardsContainer = document.querySelector('.cards');
+// Необходимые элементы карточек
+const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card-template').content;
 
 
-// Функция проверки наличия класса .visually-hidden у попапов
+// Функция проверки наличия класса visually-hidden у попапов
 function hasVisibleClass(popups) {
     popups.forEach(function (el) {
         if (!el.classList.contains('visually-hidden')) {
@@ -66,11 +70,19 @@ function hasVisibleClass(popups) {
     });
 }
 
+function openPicture(evt) {
+    bigPicElement.src = evt.target.src;
+    bigPicElement.alt = evt.target.alt;
+    bigPicNameElement.textContent = evt.target.alt;
+    bigPicturePopup.classList.remove('visually-hidden');
+}
+
 // Функция открытия попапов
 function openPopup(evt) {
+    debugger
+
     switch (evt.target) {
         case nickEditButton:
-
             profileEditPopup.classList.remove('visually-hidden');
             nameInputElement.value = userNameElement.textContent;
             aboutInputElement.value = userAboutElement.textContent;
@@ -81,6 +93,9 @@ function openPopup(evt) {
             picNameElement.value = '';
             picSrcElement.value = '';
             addNewPostButton.removeEventListener('click', openPopup);
+            break;
+        case document.querySelector:
+
             break;
     }
 
@@ -116,6 +131,8 @@ function closePopup(evt = null) {
         nameInputElement.value = userNameElement.textContent;
         aboutInputElement.value = userAboutElement.textContent;
         nickEditButton.addEventListener('click', openPopup);
+    } else if (evt.target.parentElement.closest('.popup_id_big-picture')) {
+        bigPicturePopup.classList.add('visually-hidden');
     }
 
     document.removeEventListener('keyup', onEscKeyClosePopup);
@@ -164,20 +181,19 @@ function createCards(cardsArr) {
         const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
         // необходимые элементы каждой карточки
-        const cardPicElement = cardElement.querySelector('.card__pic');
         const cardTitleElement = cardElement.querySelector('.card__title');
         const removeButtonElement = cardElement.querySelector('.card__remove');
-
+        const cardPicElement = cardElement.querySelector('.card__pic');
 
         // наполняем содержимым клонированный шаблон
         cardPicElement.src = card.link;
         cardPicElement.alt = card.name;
         cardTitleElement.textContent = card.name;
 
-        // обработчик лайка
+        // обработчики событий на каждой карточке
         removeButtonElement.addEventListener('click', removeButtonHandler);
         cardElement.addEventListener('click', likeButtonHandler);
-
+        cardPicElement.addEventListener('click', openPicture);
 
         // отображаем на странице
         cardsContainer.append(cardElement);
