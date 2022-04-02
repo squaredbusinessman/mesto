@@ -29,8 +29,6 @@ const initialCards = [
     }
 ];
 
-
-
 // Используемые в проекте попапы
 const profileEditPopup = document.querySelector('.popup_id_profile-edit');
 const addNewPostPopup = document.querySelector('.popup_id_new-post');
@@ -64,41 +62,54 @@ const cardTemplate = document.querySelector('#card-template').content;
 // Функция проверки наличия класса visually-hidden у попапов
 function hasVisibleClass(popups) {
     popups.forEach(function (el) {
-        if (!el.classList.contains('visually-hidden')) {
-            el.classList.add('visually-hidden');
+        if (el.classList.contains('popup_visible')) {
+            el.classList.remove('popup_visible');
         }
     });
 }
 
-function openPicture(evt) {
-    bigPicElement.src = evt.target.src;
-    bigPicElement.alt = evt.target.alt;
-    bigPicNameElement.textContent = evt.target.alt;
-    bigPicturePopup.classList.remove('visually-hidden');
+// Функция удаления карточек
+function deleteAllCards() {
+    const cards = cardsContainer.querySelectorAll('.card');
+    cards.forEach(function (card) {
+        card.remove();
+    })
+}
+
+// Функция кнопки лайка
+function likeButtonHandler(evt) {
+    if (evt.target.classList.contains('card__like')) {
+        evt.target.classList.toggle('card__like_active')
+    }
+}
+
+// Функция кнопки удаления карточки
+function removeButtonHandler(evt) {
+    evt.currentTarget.closest('.card').remove();
 }
 
 // Функция открытия попапов
-function openPopup(evt) {
-    debugger
+function openPopup(popupElement, evt) {
 
-    switch (evt.target) {
-        case nickEditButton:
-            profileEditPopup.classList.remove('visually-hidden');
+    switch (popupElement) {
+        case profileEditPopup:
             nameInputElement.value = userNameElement.textContent;
             aboutInputElement.value = userAboutElement.textContent;
             nickEditButton.removeEventListener('click', openPopup);
             break;
-        case addNewPostButton:
-            addNewPostPopup.classList.remove('visually-hidden');
+        case addNewPostPopup:
             picNameElement.value = '';
             picSrcElement.value = '';
             addNewPostButton.removeEventListener('click', openPopup);
             break;
-        case document.querySelector:
-
+        case bigPicturePopup:
+            bigPicElement.src = evt.target.src;
+            bigPicElement.alt = evt.target.alt;
+            bigPicNameElement.textContent = evt.target.alt;
             break;
     }
 
+    popupElement.classList.add('popup_visible');
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -110,8 +121,8 @@ function onEscKeyClosePopup(evt) {
         aboutInputElement.value = userAboutElement.textContent;
     }
     document.removeEventListener('keyup', onEscKeyClosePopup);
-    nickEditButton.addEventListener('click', openPopup);
-    addNewPostButton.addEventListener('click', openPopup);
+    nickEditButton.addEventListener('click', () => { openPopup(profileEditPopup) });
+    addNewPostButton.addEventListener('click', () => { openPopup(addNewPostPopup) });
 }
 
 // Функция закрытия попапов
@@ -122,17 +133,17 @@ function closePopup(evt = null) {
         nickEditButton.addEventListener('click', openPopup);
         addNewPostButton.addEventListener('click', openPopup);
     } else if (evt.target.parentElement.closest('.popup_id_new-post')) {
-        addNewPostPopup.classList.add('visually-hidden');
+        addNewPostPopup.classList.remove('popup_visible');
         picNameElement.value = '';
         picSrcElement.value = '';
         addNewPostButton.addEventListener('click', openPopup);
     } else if (evt.target.parentElement.closest('.popup_id_profile-edit')) {
-        profileEditPopup.classList.add('visually-hidden');
+        profileEditPopup.classList.remove('popup_visible');
         nameInputElement.value = userNameElement.textContent;
         aboutInputElement.value = userAboutElement.textContent;
         nickEditButton.addEventListener('click', openPopup);
     } else if (evt.target.parentElement.closest('.popup_id_big-picture')) {
-        bigPicturePopup.classList.add('visually-hidden');
+        bigPicturePopup.classList.remove('popup_visible');
     }
 
     document.removeEventListener('keyup', onEscKeyClosePopup);
@@ -193,36 +204,16 @@ function createCards(cardsArr) {
         // обработчики событий на каждой карточке
         removeButtonElement.addEventListener('click', removeButtonHandler);
         cardElement.addEventListener('click', likeButtonHandler);
-        cardPicElement.addEventListener('click', openPicture);
+        cardPicElement.addEventListener('click', (evt) => { openPopup(bigPicturePopup, evt) });
 
         // отображаем на странице
         cardsContainer.append(cardElement);
     })
 }
 
-// Функция удаления карточек
-function deleteAllCards() {
-    const cards = cardsContainer.querySelectorAll('.card');
-    cards.forEach(function (card) {
-        card.remove();
-    })
-}
-
-// Функция кнопки лайка
-function likeButtonHandler(evt) {
-    if (evt.target.classList.contains('card__like')) {
-        evt.target.classList.toggle('card__like_active')
-    }
-}
-
-// Функция кнопки удаления карточки
-function removeButtonHandler(evt) {
-    evt.currentTarget.closest('.card').remove();
-}
-
 createCards(initialCards);
-nickEditButton.addEventListener('click', openPopup);
-addNewPostButton.addEventListener('click', openPopup);
+nickEditButton.addEventListener('click', () => { openPopup(profileEditPopup) });
+addNewPostButton.addEventListener('click', () => { openPopup(addNewPostPopup) });
 popupCloseButtons.forEach(function (el) {
     el.addEventListener('click', closePopup);
 });

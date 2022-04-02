@@ -4,9 +4,6 @@
 /* Fonts */
 @import url(../vendor/fonts/fonts.css);
 
-/* Common blocks */
-@import url(../blocks/visually-hidden/visually-hidden.css);
-
 /* Blocks */
 @import url(../blocks/index-page/index-page.css);
 
@@ -36,6 +33,7 @@
 
 /* Popup */
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_visible/popup_visible.css);
 @import url(../blocks/popup/__wrapper/popup__wrapper.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__form/popup__form.css);
