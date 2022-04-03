@@ -7,17 +7,20 @@ const addNewPostPopup = document.querySelector('.popup_id_new-post');
 const bigPicturePopup = document.querySelector('.popup_id_big-picture');
 
 // Необходимые элементы формы popup
-const popupElements = document.querySelectorAll('.popup');
 const formElements = document.querySelectorAll('.popup__form');
+
 const editFormElement = profileEditPopup.querySelector('.popup__form');
 const nameInputElement = editFormElement.querySelector('.popup__input_type_name');
 const aboutInputElement = editFormElement.querySelector('.popup__input_type_about');
+const editPopupCloseButton = profileEditPopup.querySelector('.popup__close-btn');
+
 const postFormElement = addNewPostPopup.querySelector('.popup__form');
 const picNameElement = postFormElement.querySelector('.popup__input_type_name');
 const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
+const postPopupCloseButton = addNewPostPopup.querySelector('.popup__close-btn');
+
 const bigPicElement = bigPicturePopup.querySelector('.popup__img');
 const bigPicNameElement = bigPicturePopup.querySelector('.popup__name');
-const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 // Необходимые элементы блока user
 const userSectionElement = document.querySelector('.user');
@@ -29,16 +32,6 @@ const addNewPostButton = userSectionElement.querySelector('.user__add-post-btn')
 // Необходимые элементы карточек
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card-template').content;
-
-
-// Функция проверки наличия класса visually-hidden у попапов
-function hasVisibleClass(popups) {
-    popups.forEach(function (el) {
-        if (el.classList.contains('popup_visible')) {
-            el.classList.remove('popup_visible');
-        }
-    });
-}
 
 // Функция удаления карточек
 function deleteAllCards() {
@@ -60,27 +53,30 @@ function removeButtonHandler(evt) {
     evt.currentTarget.closest('.card').remove();
 }
 
+// Функция открытия попапа - редактирования профиля
+function openProfileEditPopup() {
+    nameInputElement.value = userNameElement.textContent;
+    aboutInputElement.value = userAboutElement.textContent;
+    editPopupCloseButton.addEventListener('click', closeProfileEditPopup);
+    openPopup(profileEditPopup);
+}
+
+// Функция открытия попапа - добавления нового поста
+function openNewPostPopup() {
+    postPopupCloseButton.addEventListener('click', closeNewPostPopup);
+    openPopup(addNewPostPopup);
+}
+
+// Функция открытия попапа - фотографии поста в большом размере
+function openBigPicPopup(evt) {
+    bigPicElement.src = evt.target.src;
+    bigPicElement.alt = evt.target.alt;
+    bigPicNameElement.textContent = evt.target.alt;
+    openPopup(bigPicturePopup);
+}
+
 // Функция открытия попапов
-function openPopup(popupElement, evt) {
-
-    switch (popupElement) {
-        case profileEditPopup:
-            nameInputElement.value = userNameElement.textContent;
-            aboutInputElement.value = userAboutElement.textContent;
-            nickEditButton.removeEventListener('click', openPopup);
-            break;
-        case addNewPostPopup:
-            picNameElement.value = '';
-            picSrcElement.value = '';
-            addNewPostButton.removeEventListener('click', openPopup);
-            break;
-        case bigPicturePopup:
-            bigPicElement.src = evt.target.src;
-            bigPicElement.alt = evt.target.alt;
-            bigPicNameElement.textContent = evt.target.alt;
-            break;
-    }
-
+function openPopup(popupElement) {
     popupElement.classList.add('popup_visible');
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
@@ -88,36 +84,28 @@ function openPopup(popupElement, evt) {
 // Функция закрытия попапов нажатием ESC
 function onEscKeyClosePopup(evt) {
     if (evt.key === ESC_KEY) {
-        hasVisibleClass(popupElements);
-        nameInputElement.value = userNameElement.textContent;
-        aboutInputElement.value = userAboutElement.textContent;
+        closePopup();
     }
     document.removeEventListener('keyup', onEscKeyClosePopup);
-    nickEditButton.addEventListener('click', () => { openPopup(profileEditPopup) });
-    addNewPostButton.addEventListener('click', () => { openPopup(addNewPostPopup) });
+}
+
+// Функция закрытия попапа - редактирования профиля
+function closeProfileEditPopup() {
+    nameInputElement.value = userNameElement.textContent;
+    aboutInputElement.value = userAboutElement.textContent;
+    closePopup(profileEditPopup);
+}
+
+// Функция закрытия попапа - добавления нового поста
+function closeNewPostPopup() {
+    postFormElement.reset();
+    closePopup(addNewPostPopup);
 }
 
 // Функция закрытия попапов
-function closePopup(evt = null) {
-
-    if (evt === null) {
-        hasVisibleClass(popupElements);
-        nickEditButton.addEventListener('click', openPopup);
-        addNewPostButton.addEventListener('click', openPopup);
-    } else if (evt.target.parentElement.closest('.popup_id_new-post')) {
-        addNewPostPopup.classList.remove('popup_visible');
-        picNameElement.value = '';
-        picSrcElement.value = '';
-        addNewPostButton.addEventListener('click', openPopup);
-    } else if (evt.target.parentElement.closest('.popup_id_profile-edit')) {
-        profileEditPopup.classList.remove('popup_visible');
-        nameInputElement.value = userNameElement.textContent;
-        aboutInputElement.value = userAboutElement.textContent;
-        nickEditButton.addEventListener('click', openPopup);
-    } else if (evt.target.parentElement.closest('.popup_id_big-picture')) {
-        bigPicturePopup.classList.remove('popup_visible');
-    }
-
+function closePopup() {
+    const activePopup = document.querySelector('.popup_visible');
+    activePopup.classList.remove('popup_visible');
     document.removeEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -176,7 +164,7 @@ function createCards(cardsArr) {
         // обработчики событий на каждой карточке
         removeButtonElement.addEventListener('click', removeButtonHandler);
         cardElement.addEventListener('click', likeButtonHandler);
-        cardPicElement.addEventListener('click', (evt) => { openPopup(bigPicturePopup, evt) });
+        cardPicElement.addEventListener('click', (evt) => { openBigPicPopup(evt) });
 
         // отображаем на странице
         cardsContainer.append(cardElement);
@@ -184,11 +172,10 @@ function createCards(cardsArr) {
 }
 
 createCards(initialCards);
-nickEditButton.addEventListener('click', () => { openPopup(profileEditPopup) });
-addNewPostButton.addEventListener('click', () => { openPopup(addNewPostPopup) });
-popupCloseButtons.forEach(function (el) {
-    el.addEventListener('click', closePopup);
-});
+
+nickEditButton.addEventListener('click', openProfileEditPopup);
+addNewPostButton.addEventListener('click', openNewPostPopup);
+
 formElements.forEach(function (el) {
     el.addEventListener('submit', formSubmitHandler);
 });
