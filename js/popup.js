@@ -9,10 +9,10 @@ const bigPicturePopup = document.querySelector('.popup_id_big-picture');
 // Необходимые элементы формы popup
 const popupElements = document.querySelectorAll('.popup');
 const formElements = document.querySelectorAll('.popup__form');
-const editFormElement = popupElements[0].querySelector('.popup__form');
+const editFormElement = profileEditPopup.querySelector('.popup__form');
 const nameInputElement = editFormElement.querySelector('.popup__input_type_name');
 const aboutInputElement = editFormElement.querySelector('.popup__input_type_about');
-const postFormElement = popupElements[1].querySelector('.popup__form');
+const postFormElement = addNewPostPopup.querySelector('.popup__form');
 const picNameElement = postFormElement.querySelector('.popup__input_type_name');
 const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
 const bigPicElement = bigPicturePopup.querySelector('.popup__img');
