@@ -11,6 +11,7 @@ const editFormElement = profileEditPopup.querySelector('.popup__form');
 const nameInputElement = editFormElement.querySelector('.popup__input_type_name');
 const aboutInputElement = editFormElement.querySelector('.popup__input_type_about');
 const editPopupSaveButton = profileEditPopup.querySelector('.popup__save-btn');
+const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 const postFormElement = addNewPostPopup.querySelector('.popup__form');
 const picNameElement = postFormElement.querySelector('.popup__input_type_name');
@@ -66,7 +67,6 @@ function openBigPicPopup(evt) {
 // Функция открытия попапов
 function openPopup(popupElement) {
     popupElement.classList.add('popup_visible');
-    xKeyClosePopup(popupElement);
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -76,13 +76,6 @@ function onEscKeyClosePopup(evt) {
         closePopup();
     }
     document.removeEventListener('keyup', onEscKeyClosePopup);
-}
-
-// Функция закрытия попапа по нажатею Х
-function xKeyClosePopup(popupElement) {
-    const closeButton = popupElement.querySelector('.popup__close-btn');
-
-    closeButton.addEventListener('click', closePopup);
 }
 
 // Функция закрытия попапа - редактирования профиля
@@ -165,3 +158,6 @@ nickEditButton.addEventListener('click', openProfileEditPopup);
 addNewPostButton.addEventListener('click', openNewPostPopup);
 editPopupSaveButton.addEventListener('click', editFormSubmitHandler);
 postPopupSaveButton.addEventListener('click', newPostFormSubmitHandler);
+popupCloseButtons.forEach(function(button) {
+    button.addEventListener('click', closePopup);
+});
