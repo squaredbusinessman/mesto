@@ -10,18 +10,15 @@ const bigPicturePopup = document.querySelector('.popup_id_big-picture');
 const editFormElement = profileEditPopup.querySelector('.popup__form');
 const nameInputElement = editFormElement.querySelector('.popup__input_type_name');
 const aboutInputElement = editFormElement.querySelector('.popup__input_type_about');
-const editPopupCloseButton = profileEditPopup.querySelector('.popup__close-btn');
 const editPopupSaveButton = profileEditPopup.querySelector('.popup__save-btn');
 
 const postFormElement = addNewPostPopup.querySelector('.popup__form');
 const picNameElement = postFormElement.querySelector('.popup__input_type_name');
 const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
-const postPopupCloseButton = addNewPostPopup.querySelector('.popup__close-btn');
 const postPopupSaveButton = addNewPostPopup.querySelector('.popup__save-btn');
 
 const bigPicElement = bigPicturePopup.querySelector('.popup__img');
 const bigPicNameElement = bigPicturePopup.querySelector('.popup__name');
-const bigPicCloseButton = bigPicturePopup.querySelector('.popup__close-btn');
 
 // Необходимые элементы блока user
 const userSectionElement = document.querySelector('.user');
@@ -50,13 +47,11 @@ function removeButtonHandler(evt) {
 function openProfileEditPopup() {
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
-    editPopupCloseButton.addEventListener('click', closeProfileEditPopup);
     openPopup(profileEditPopup);
 }
 
 // Функция открытия попапа - добавления нового поста
 function openNewPostPopup() {
-    postPopupCloseButton.addEventListener('click', closeNewPostPopup);
     openPopup(addNewPostPopup);
 }
 
@@ -65,13 +60,15 @@ function openBigPicPopup(evt) {
     bigPicElement.src = evt.target.src;
     bigPicElement.alt = evt.target.alt;
     bigPicNameElement.textContent = evt.target.alt;
-    bigPicCloseButton.addEventListener('click', closePopup);
     openPopup(bigPicturePopup);
 }
 
 // Функция открытия попапов
 function openPopup(popupElement) {
+    const closeButton = popupElement.querySelector('.popup__close-btn');
+
     popupElement.classList.add('popup_visible');
+    closeButton.addEventListener('click', closePopup);
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
