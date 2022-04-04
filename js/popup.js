@@ -65,10 +65,8 @@ function openBigPicPopup(evt) {
 
 // Функция открытия попапов
 function openPopup(popupElement) {
-    const closeButton = popupElement.querySelector('.popup__close-btn');
-
     popupElement.classList.add('popup_visible');
-    closeButton.addEventListener('click', closePopup);
+    xKeyClosePopup(popupElement);
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -78,6 +76,13 @@ function onEscKeyClosePopup(evt) {
         closePopup();
     }
     document.removeEventListener('keyup', onEscKeyClosePopup);
+}
+
+// Функция закрытия попапа по нажатею Х
+function xKeyClosePopup(popupElement) {
+    const closeButton = popupElement.querySelector('.popup__close-btn');
+
+    closeButton.addEventListener('click', closePopup);
 }
 
 // Функция закрытия попапа - редактирования профиля
