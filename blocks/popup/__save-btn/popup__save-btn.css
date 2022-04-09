@@ -19,6 +19,13 @@
   transition: opacity .2s linear;
 }
 
+.popup__save-btn:disabled {
+  background-color: #fff;
+  color: #c4c4c4;
+  border: 1px solid #c4c4c4;
+  cursor: not-allowed;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
   .popup__save-btn {
     min-height: 46px;
