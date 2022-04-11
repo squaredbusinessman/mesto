@@ -2,6 +2,7 @@
 const ESC_KEY = 'Escape';
 
 // Используемые в проекте попапы
+const overlays = document.querySelectorAll('.popup');
 const profileEditPopup = document.querySelector('.popup_id_profile-edit');
 const addNewPostPopup = document.querySelector('.popup_id_new-post');
 const bigPicturePopup = document.querySelector('.popup_id_big-picture');
@@ -85,6 +86,14 @@ function closeProfileEditPopup() {
     closePopup(profileEditPopup);
 }
 
+// Функция закрытия при клике на оверлей
+function overlayClosePopup(evt) {
+    evt.stopPropagation();
+    if (evt.target.classList.contains('popup')) {
+        closePopup();
+    }
+}
+
 // Функция закрытия попапа - добавления нового поста
 function closeNewPostPopup() {
     postFormElement.reset();
@@ -154,10 +163,14 @@ function renderCards(cardsArr) {
 }
 
 renderCards(initialCards);
+overlays.forEach(function(overlay) {
+    overlay.addEventListener('click', overlayClosePopup);
+})
 nickEditButton.addEventListener('click', openProfileEditPopup);
 addNewPostButton.addEventListener('click', openNewPostPopup);
 editPopupSaveButton.addEventListener('click', editFormSubmitHandler);
 postPopupSaveButton.addEventListener('click', newPostFormSubmitHandler);
+
 popupCloseButtons.forEach(function(button) {
     button.addEventListener('click', closePopup);
 });

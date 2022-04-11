@@ -93,7 +93,6 @@ const enableValidation = ({
     // Найдём все формы с указанным классом в DOM,
     // сделаем из них массив методом Array.from
     const formList = Array.from(document.querySelectorAll(formSelector));
-    console.log(formList);
     // Переберём полученную коллекцию
     formList.forEach((formElement) => {
         formElement.addEventListener('submit', (evt) => {
