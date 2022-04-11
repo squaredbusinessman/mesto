@@ -100,9 +100,28 @@ function closeNewPostPopup() {
     closePopup(addNewPostPopup);
 }
 
+// Функция очистки полей формы
+function resetFormFields(activePopup) {
+    const activePopupForm = activePopup.querySelector('.popup__form');
+    activePopupForm.reset();
+}
+
+// Функция сброса ошибок полей формы
+function cancelInputErrors(activePopup) {
+    const inputList = Array.from(activePopup.querySelectorAll('.popup__input'));
+    inputList.forEach(function (inputElement) {
+        const errorElement = activePopup.querySelector(`.${inputElement.id}-error`);
+        inputElement.classList.remove('popup__input_type_error');
+        errorElement.classList.remove('popup__input-error_visible');
+        errorElement.textContent = '';
+    })
+}
+
 // Функция закрытия попапов
 function closePopup() {
     const activePopup = document.querySelector('.popup_visible');
+    resetFormFields(activePopup);
+    cancelInputErrors(activePopup);
     activePopup.classList.remove('popup_visible');
     document.removeEventListener('keyup', onEscKeyClosePopup);
 }

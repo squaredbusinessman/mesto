@@ -1,9 +1,9 @@
 const validationConfig = {
-    formSelector: ".popup__form",
-    inputSelector: ".popup__input",
-    submitButtonSelector: ".popup__save-btn",
-    inputErrorClass: "popup__input_type_error",
-    errorClass: "popup__input-error_visible",
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save-btn',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_visible',
 };
 
 const showInputError = (formElement, inputElement, errorMessage, inputErrorClass, errorClass) => {
