@@ -59,23 +59,25 @@
           <input
                   type="text"
                   class="popup__input popup__input_type_name"
-                  id="popup-user-name"
+                  id="input-nickname"
                   aria-label="Поле ввода имени пользователя"
                   minlength="2"
                   maxlength="40"
                   required
           >
+          <span class="popup__input-error input-nickname-error"></span>
         </label>
         <label>
           <input
                   type="text"
                   class="popup__input popup__input_type_about"
-                  id="popup-user-about"
+                  id="input-about"
                   aria-label="Поле ввода информации о пользователе"
                   minlength="2"
                   maxlength="200"
                   required
           >
+          <span class="popup__input-error input-about-error"></span>
         </label>
         <button
                 type="submit"
@@ -105,19 +107,21 @@
           <input
                   type="text"
                   class="popup__input popup__input_type_name"
-                  id="popup-place-name"
+                  id="input-place-name"
                   aria-label="Поле ввода названия"
                   placeholder="Название"
           >
+          <span class="popup__input-error input-place-name-error"></span>
         </label>
         <label>
           <input
-                  type="text"
+                  type="url"
                   class="popup__input popup__input_type_about"
-                  id="popup-place-src"
+                  id="input-src"
                   aria-label="Поле ввода ссылки"
                   placeholder="Ссылка на картинку"
           >
+          <span class="popup__input-error input-src-error"></span>
         </label>
         <button
                 type="submit"
@@ -149,7 +153,6 @@
               aria-label="Кнопка закрытия попапа"
       ></button>
     </div>
-
   </div>
 
 </main>
@@ -181,6 +184,7 @@
 </template>
 
 <script src="./js/data-cards.js"></script>
+<script src="./js/validate.js"></script>
 <script src="./js/popup.js"></script>
 </body>
 </html>
