@@ -103,8 +103,8 @@ function overlayClosePopup(evt) {
 
 // Функция закрытия попапа - добавления нового поста
 function closeNewPostPopup() {
-    postFormElement.reset();
     closePopup(postPopup);
+    postFormElement.reset();
 }
 
 // Функция очистки полей формы
