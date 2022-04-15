@@ -84,7 +84,6 @@ function onEscKeyClosePopup(evt) {
     if (evt.key === ESC_KEY) {
         closePopup();
     }
-    document.removeEventListener('keyup', onEscKeyClosePopup);
 }
 
 // Функция закрытия попапа - редактирования профиля
