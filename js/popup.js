@@ -65,9 +65,19 @@ function openBigPicPopup(evt) {
     openPopup(bigPicturePopup);
 }
 
+// Функция дизэйбла кнопки отправки при повторном открытии попапа с инпутами
+const disableSubmit = (popupElement) => {
+    const activePopupForm = popupElement.querySelector('.popup__form');
+    if (activePopupForm) {
+        const activePopupSubmitBtn = activePopupForm.querySelector('.popup__save-btn');
+        activePopupSubmitBtn.setAttribute('disabled', 'disabled');
+    }
+}
+
 // Функция открытия попапов
 function openPopup(popupElement) {
     popupElement.classList.add('popup_visible');
+    disableSubmit(popupElement);
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
