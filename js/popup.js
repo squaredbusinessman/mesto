@@ -103,7 +103,9 @@ function closeNewPostPopup() {
 // Функция очистки полей формы
 function resetFormFields(activePopup) {
     const activePopupForm = activePopup.querySelector('.popup__form');
-    activePopupForm.reset();
+    if (activePopupForm) {
+        activePopupForm.reset();
+    }
 }
 
 // Функция сброса ошибок полей формы
