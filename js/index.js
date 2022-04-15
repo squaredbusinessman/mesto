@@ -1,33 +1,33 @@
 // Константы
 const ESC_KEY = 'Escape';
 
-// Используемые в проекте попапы
+// Используемые в проекте попапы и их общие элементы
 const overlays = document.querySelectorAll('.popup');
-const profileEditPopup = document.querySelector('.popup_id_profile-edit');
-const addNewPostPopup = document.querySelector('.popup_id_new-post');
-const bigPicturePopup = document.querySelector('.popup_id_big-picture');
-
-// Необходимые элементы popup
-const editFormElement = profileEditPopup.querySelector('.popup__form');
-const nameInputElement = editFormElement.querySelector('.popup__input_type_name');
-const aboutInputElement = editFormElement.querySelector('.popup__input_type_about');
-const editPopupSaveButton = profileEditPopup.querySelector('.popup__save-btn');
+const profilePopup = document.querySelector('.popup_id_profile-edit');
+const postPopup = document.querySelector('.popup_id_new-post');
+const picturePopup = document.querySelector('.popup_id_big-picture');
 const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
-const postFormElement = addNewPostPopup.querySelector('.popup__form');
+// Необходимые элементы popup
+const profileFormElement = profilePopup.querySelector('.popup__form');
+const nameInputElement = profileFormElement.querySelector('.popup__input_type_name');
+const aboutInputElement = profileFormElement.querySelector('.popup__input_type_about');
+const profileFormSubmit = profilePopup.querySelector('.popup__save-btn');
+
+const postFormElement = postPopup.querySelector('.popup__form');
 const picNameElement = postFormElement.querySelector('.popup__input_type_name');
 const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
-const postPopupSaveButton = addNewPostPopup.querySelector('.popup__save-btn');
+const postFormSubmit = postPopup.querySelector('.popup__save-btn');
 
-const bigPicElement = bigPicturePopup.querySelector('.popup__img');
-const bigPicNameElement = bigPicturePopup.querySelector('.popup__name');
+const picElement = picturePopup.querySelector('.popup__img');
+const picDescriptionElement = picturePopup.querySelector('.popup__name');
 
 // Необходимые элементы блока user
 const userSectionElement = document.querySelector('.user');
 const userNameElement = userSectionElement.querySelector('.user__name');
 const userAboutElement = userSectionElement.querySelector('.user__about');
 const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
-const addNewPostButton = userSectionElement.querySelector('.user__add-post-btn');
+const newPostAddButton = userSectionElement.querySelector('.user__add-post-btn');
 
 // Необходимые элементы карточек
 const cardsContainer = document.querySelector('.cards');
@@ -49,20 +49,20 @@ function removeButtonHandler(evt) {
 function openProfileEditPopup() {
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
-    openPopup(profileEditPopup);
+    openPopup(profilePopup);
 }
 
 // Функция открытия попапа - добавления нового поста
 function openNewPostPopup() {
-    openPopup(addNewPostPopup);
+    openPopup(postPopup);
 }
 
 // Функция открытия попапа - фотографии поста в большом размере
 function openBigPicPopup(evt) {
-    bigPicElement.src = evt.target.src;
-    bigPicElement.alt = evt.target.alt;
-    bigPicNameElement.textContent = evt.target.alt;
-    openPopup(bigPicturePopup);
+    picElement.src = evt.target.src;
+    picElement.alt = evt.target.alt;
+    picDescriptionElement.textContent = evt.target.alt;
+    openPopup(picturePopup);
 }
 
 // Функция дизэйбла кнопки отправки при повторном открытии попапа с инпутами
@@ -93,7 +93,7 @@ function onEscKeyClosePopup(evt) {
 function closeProfileEditPopup() {
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
-    closePopup(profileEditPopup);
+    closePopup(profilePopup);
 }
 
 // Функция закрытия при клике на оверлей
@@ -107,7 +107,7 @@ function overlayClosePopup(evt) {
 // Функция закрытия попапа - добавления нового поста
 function closeNewPostPopup() {
     postFormElement.reset();
-    closePopup(addNewPostPopup);
+    closePopup(postPopup);
 }
 
 // Функция очистки полей формы
@@ -198,9 +198,9 @@ overlays.forEach(function(overlay) {
     overlay.addEventListener('click', overlayClosePopup);
 })
 nickEditButton.addEventListener('click', openProfileEditPopup);
-addNewPostButton.addEventListener('click', openNewPostPopup);
-editPopupSaveButton.addEventListener('click', editFormSubmitHandler);
-postPopupSaveButton.addEventListener('click', newPostFormSubmitHandler);
+newPostAddButton.addEventListener('click', openNewPostPopup);
+profileFormSubmit.addEventListener('click', editFormSubmitHandler);
+postFormSubmit.addEventListener('click', newPostFormSubmitHandler);
 
 popupCloseButtons.forEach(function(button) {
     button.addEventListener('click', closePopup);

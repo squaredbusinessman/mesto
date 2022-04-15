@@ -26,7 +26,6 @@ const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) 
 
 // Функция isValid теперь принимает formElement и inputElement,
 // а не берёт их из внешней области видимости
-
 const isValid = (formElement, inputElement, inputErrorClass, errorClass) => {
     if (!inputElement.validity.valid) {
         // showInputError теперь получает параметром форму, в которой
@@ -39,23 +38,11 @@ const isValid = (formElement, inputElement, inputErrorClass, errorClass) => {
     }
 };
 
-// Функция принимает массив полей
-const hasInvalidInput = (inputList) => {
-    // проходим по этому массиву методом some
-    return inputList.some((inputElement) => {
-        // Если поле не валидно, колбэк вернёт true
-        // Обход массива прекратится и вся функция
-        // hasInvalidInput вернёт true
-
-        return !inputElement.validity.valid;
-    })
-};
-
 // Функция принимает массив полей ввода
 // и элемент кнопки, состояние которой нужно менять
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (formElement, buttonElement) => {
     // Если есть хотя бы один невалидный инпут
-    if (hasInvalidInput(inputList)) {
+    if (!formElement.checkValidity()) {
         // сделай кнопку неактивной
         buttonElement.setAttribute('disabled', 'disabled');
     } else {
@@ -70,7 +57,7 @@ const setEventListeners = (formElement, inputSelector, submitButtonSelector, inp
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
     const buttonElement = formElement.querySelector(submitButtonSelector);
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
-    toggleButtonState(inputList, buttonElement);
+    toggleButtonState(formElement, buttonElement);
     // Обойдём все элементы полученной коллекции
     inputList.forEach((inputElement) => {
         // каждому полю добавим обработчик события input
@@ -79,7 +66,7 @@ const setEventListeners = (formElement, inputSelector, submitButtonSelector, inp
             // передав ей форму и проверяемый элемент
             isValid(formElement, inputElement, inputErrorClass, errorClass);
             // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-            toggleButtonState(inputList, buttonElement);
+            toggleButtonState(formElement, buttonElement);
         });
     });
 };
