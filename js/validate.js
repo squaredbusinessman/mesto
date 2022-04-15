@@ -50,12 +50,19 @@ const hasInvalidInput = (inputList) => {
         return !inputElement.validity.valid;
     })
 };
+
+// Функция проверки полей инпут на пустоту
+const hasVoidInput = (inputList) => {
+    return inputList.some((el) => {
+        return el.value === '';
+    })
+}
+
 // Функция принимает массив полей ввода
 // и элемент кнопки, состояние которой нужно менять
-
 const toggleButtonState = (inputList, buttonElement) => {
     // Если есть хотя бы один невалидный инпут
-    if (hasInvalidInput(inputList)) {
+    if (hasInvalidInput(inputList) && hasVoidInput(inputList)) {
         // сделай кнопку неактивной
         buttonElement.setAttribute('disabled', 'disabled');
     } else {
