@@ -20,14 +20,14 @@ const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
 const postFormSubmit = postPopup.querySelector('.popup__save-btn');
 
 const picElement = picturePopup.querySelector('.popup__img');
-const picDescriptionElement = picturePopup.querySelector('.popup__name');
+const picTitleElement = picturePopup.querySelector('.popup__name');
 
 // Необходимые элементы блока user
 const userSectionElement = document.querySelector('.user');
 const userNameElement = userSectionElement.querySelector('.user__name');
 const userAboutElement = userSectionElement.querySelector('.user__about');
 const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
-const newPostAddButton = userSectionElement.querySelector('.user__add-post-btn');
+const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 
 // Необходимые элементы карточек
 const cardsContainer = document.querySelector('.cards');
@@ -35,9 +35,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 
 // Функция кнопки лайка
 function likeButtonHandler(evt) {
-    if (evt.target.classList.contains('card__like')) {
-        evt.target.classList.toggle('card__like_active')
-    }
+    evt.target.classList.toggle('card__like_active');
 }
 
 // Функция кнопки удаления карточки
@@ -59,9 +57,9 @@ function openNewPostPopup() {
 
 // Функция открытия попапа - фотографии поста в большом размере
 function openBigPicPopup(evt) {
-    picElement.src = evt.target.src;
-    picElement.alt = evt.target.alt;
-    picDescriptionElement.textContent = evt.target.alt;
+    picTitleElement.src = evt.target.src;
+    picTitleElement.alt = evt.target.alt;
+    picNameElement.textContent = evt.target.alt;
     openPopup(picturePopup);
 }
 
@@ -165,8 +163,9 @@ function getCardElement() {
     // необходимые элементы каждой карточки
     const cardPicElement = cardElement.querySelector('.card__pic');
     const removeButtonElement = cardElement.querySelector('.card__remove');
+    const likeButton = cardElement.querySelector('.card__like');
     // обработчики событий на каждой карточке
-    cardElement.addEventListener('click', likeButtonHandler);
+    likeButton.addEventListener('click', likeButtonHandler);
     removeButtonElement.addEventListener('click', removeButtonHandler);
     cardPicElement.addEventListener('click', (evt) => { openBigPicPopup(evt) });
 
@@ -198,7 +197,7 @@ overlays.forEach(function(overlay) {
     overlay.addEventListener('click', overlayClosePopup);
 })
 nickEditButton.addEventListener('click', openProfileEditPopup);
-newPostAddButton.addEventListener('click', openNewPostPopup);
+postAddButton.addEventListener('click', openNewPostPopup);
 profileFormSubmit.addEventListener('click', editFormSubmitHandler);
 postFormSubmit.addEventListener('click', newPostFormSubmitHandler);
 
