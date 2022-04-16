@@ -57,9 +57,9 @@ function openNewPostPopup() {
 
 // Функция открытия попапа - фотографии поста в большом размере
 function openBigPicPopup(evt) {
-    picTitleElement.src = evt.target.src;
-    picTitleElement.alt = evt.target.alt;
-    picNameElement.textContent = evt.target.alt;
+    picElement.src = evt.target.src;
+    picElement.alt = evt.target.alt;
+    picTitleElement.textContent = evt.target.alt;
     openPopup(picturePopup);
 }
 
@@ -146,23 +146,28 @@ function editFormSubmitHandler(evt) {
 // Функция отправки формы создания нового поста
 function newPostFormSubmitHandler(evt) {
     evt.preventDefault();
-    const newCard = {
+    const newCardData = {
         name: picNameElement.value,
         link: picSrcElement.value,
     }
 
-   renderCard(newCard, cardsContainer);
+   renderCard(newCardData, cardsContainer);
     closeNewPostPopup();
 }
 
 // Функция создания карточки
-function getCardElement() {
+function createCard(cardData = {}) {
     // клонируем содержимое тега template
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     // необходимые элементы каждой карточки
     const cardPicElement = cardElement.querySelector('.card__pic');
     const removeButtonElement = cardElement.querySelector('.card__remove');
     const likeButton = cardElement.querySelector('.card__like');
+    const cardTitleElement = cardElement.querySelector('.card__title');
+    // наполняем содержимым клонированный шаблон
+    cardPicElement.src = cardData.link;
+    cardPicElement.alt = cardData.name;
+    cardTitleElement.textContent = cardData.name;
     // обработчики событий на каждой карточке
     likeButton.addEventListener('click', likeButtonHandler);
     removeButtonElement.addEventListener('click', removeButtonHandler);
@@ -172,29 +177,20 @@ function getCardElement() {
 }
 
 // Функция отображения карточки на странице
-function renderCard(card, container) {
-    const cardElement = getCardElement();
-    // необходимые элементы каждой карточки
-    const cardTitleElement = cardElement.querySelector('.card__title');
-    const cardPicElement = cardElement.querySelector('.card__pic');
-    // наполняем содержимым клонированный шаблон
-    cardPicElement.src = card.link;
-    cardPicElement.alt = card.name;
-    cardTitleElement.textContent = card.name;
+function renderCard(cardData, container) {
+    const card = createCard(cardData);
 
-    container.prepend(cardElement);
+    container.prepend(card);
 }
 
-function renderCards(cardsArr) {
-    cardsArr.forEach((card) => {
-        renderCard(card, cardsContainer);
-    });
-}
+initialCards.forEach((cardData) => {
+    renderCard(cardData, cardsContainer);
+})
 
-renderCards(initialCards);
 overlays.forEach(function(overlay) {
     overlay.addEventListener('click', overlayClosePopup);
 })
+
 nickEditButton.addEventListener('click', openProfileEditPopup);
 postAddButton.addEventListener('click', openNewPostPopup);
 profileFormSubmit.addEventListener('click', editFormSubmitHandler);
