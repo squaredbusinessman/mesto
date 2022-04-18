@@ -45,6 +45,7 @@ function removeButtonHandler(evt) {
 
 // Функция открытия попапа - редактирования профиля
 function openProfileEditPopup() {
+    prepareForm(profilePopup, validationConfig);
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
     openPopup(profilePopup);
@@ -52,6 +53,7 @@ function openProfileEditPopup() {
 
 // Функция открытия попапа - добавления нового поста
 function openNewPostPopup() {
+    prepareForm(postPopup, validationConfig);
     openPopup(postPopup);
 }
 
@@ -63,19 +65,9 @@ function openBigPicPopup(evt) {
     openPopup(picturePopup);
 }
 
-// Функция дизэйбла кнопки отправки при повторном открытии попапа с инпутами
-const disableSubmit = (popupElement) => {
-    const activePopupForm = popupElement.querySelector('.popup__form');
-    if (activePopupForm) {
-        const activePopupSubmitBtn = activePopupForm.querySelector('.popup__save-btn');
-        activePopupSubmitBtn.setAttribute('disabled', 'disabled');
-    }
-}
-
 // Функция открытия попапов
 function openPopup(popupElement) {
     popupElement.classList.add('popup_visible');
-    disableSubmit(popupElement);
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -104,33 +96,11 @@ function overlayClosePopup(evt) {
 // Функция закрытия попапа - добавления нового поста
 function closeNewPostPopup() {
     closePopup(postPopup);
-    postFormElement.reset();
-}
-
-// Функция очистки полей формы
-function resetFormFields(activePopup) {
-    const activePopupForm = activePopup.querySelector('.popup__form');
-    if (activePopupForm) {
-        activePopupForm.reset();
-    }
-}
-
-// Функция сброса ошибок полей формы
-function cancelInputErrors(activePopup) {
-    const inputList = Array.from(activePopup.querySelectorAll('.popup__input'));
-    inputList.forEach(function (inputElement) {
-        const errorElement = activePopup.querySelector(`.${inputElement.id}-error`);
-        inputElement.classList.remove('popup__input_type_error');
-        errorElement.classList.remove('popup__input-error_visible');
-        errorElement.textContent = '';
-    })
 }
 
 // Функция закрытия попапов
 function closePopup() {
     const activePopup = document.querySelector('.popup_visible');
-    resetFormFields(activePopup);
-    cancelInputErrors(activePopup);
     activePopup.classList.remove('popup_visible');
     document.removeEventListener('keyup', onEscKeyClosePopup);
 }
