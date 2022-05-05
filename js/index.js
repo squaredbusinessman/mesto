@@ -1,3 +1,7 @@
+import Card from './Card.js';
+import {initialCards} from './data-cards.js';
+import {prepareForm, validationConfig} from './validate.js';
+
 // Константы
 const ESC_KEY = 'Escape';
 
@@ -31,17 +35,7 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 
 // Необходимые элементы карточек
 const cardsContainer = document.querySelector('.cards');
-const cardTemplate = document.querySelector('#card-template').content;
-
-// Функция кнопки лайка
-function likeButtonHandler(evt) {
-    evt.target.classList.toggle('card__like_active');
-}
-
-// Функция кнопки удаления карточки
-function removeButtonHandler(evt) {
-    evt.currentTarget.closest('.card').remove();
-}
+const cardTemplateClass = '#card-template';
 
 // Функция открытия попапа - редактирования профиля
 function openProfileEditPopup() {
@@ -125,32 +119,12 @@ function newPostFormSubmitHandler(evt) {
     closeNewPostPopup();
 }
 
-// Функция создания карточки
-function createCard(cardData = {}) {
-    // клонируем содержимое тега template
-    const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-    // необходимые элементы каждой карточки
-    const cardPicElement = cardElement.querySelector('.card__pic');
-    const removeButtonElement = cardElement.querySelector('.card__remove');
-    const likeButton = cardElement.querySelector('.card__like');
-    const cardTitleElement = cardElement.querySelector('.card__title');
-    // наполняем содержимым клонированный шаблон
-    cardPicElement.src = cardData.link;
-    cardPicElement.alt = cardData.name;
-    cardTitleElement.textContent = cardData.name;
-    // обработчики событий на каждой карточке
-    likeButton.addEventListener('click', likeButtonHandler);
-    removeButtonElement.addEventListener('click', removeButtonHandler);
-    cardPicElement.addEventListener('click', (evt) => { openBigPicPopup(evt) });
-
-    return cardElement;
-}
-
 // Функция отображения карточки на странице
 function renderCard(cardData, container) {
-    const card = createCard(cardData);
+    const newCard = new Card(cardData, cardTemplateClass, openBigPicPopup);
+    const cardElement = newCard.getCard();
 
-    container.prepend(card);
+    container.prepend(cardElement);
 }
 
 initialCards.forEach((cardData) => {

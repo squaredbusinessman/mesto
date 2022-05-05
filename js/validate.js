@@ -1,4 +1,4 @@
-const validationConfig = {
+export const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save-btn',
@@ -13,7 +13,7 @@ const disableSubmit = (formElement, config) => {
 }
 
 // Функция подготовки попапа с формой
-const prepareForm = (activePopup, config) => {
+export const prepareForm = (activePopup, config) => {
     const formElement = activePopup.querySelector(config.formSelector);
     const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
     inputList.forEach((inputElement) => {
