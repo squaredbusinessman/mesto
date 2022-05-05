@@ -74,8 +74,7 @@ const cardTemplateClass = '#card-template';
 
 // Функция открытия попапа - редактирования профиля
 function openProfileEditPopup() {
-    const profileFormValidate = new FormValidator(validationConfig, profileFormElement);
-    profileFormValidate.enableValidation();
+    profileFormValidate.prepareForm();
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
     openPopup(profilePopup);
@@ -83,8 +82,7 @@ function openProfileEditPopup() {
 
 // Функция открытия попапа - добавления нового поста
 function openNewPostPopup() {
-    const newPostFormValidate = new FormValidator(validationConfig, postFormElement);
-    newPostFormValidate.enableValidation();
+    newPostFormValidate.prepareForm();
     openPopup(postPopup);
 }
 
@@ -122,6 +120,7 @@ function overlayClosePopup(evt) {
     if (evt.target.classList.contains('popup')) {
         closePopup();
     }
+
 }
 
 // Функция закрытия попапа - добавления нового поста
@@ -182,3 +181,9 @@ postFormSubmit.addEventListener('click', newPostFormSubmitHandler);
 popupCloseButtons.forEach(function(button) {
     button.addEventListener('click', closePopup);
 });
+
+const profileFormValidate = new FormValidator(validationConfig, profileFormElement);
+profileFormValidate.enableValidation();
+
+const newPostFormValidate = new FormValidator(validationConfig, postFormElement);
+newPostFormValidate.enableValidation();

@@ -19,15 +19,6 @@ export default class FormValidator {
             .setAttribute('disabled', 'disabled');
     }
 
-    _prepareForm() {
-        // метод подготовки попапа с формой для работы с пользователем
-        Array.from(this._validateForm.querySelectorAll(this._inputSelector)).forEach((element) => {
-            this._hideInputError(element)
-        })
-        this._validateForm.reset();
-        this._handleDisableSubmit();
-    }
-
     _showInputError(inputElement) {
         // находим элемент ошибки
         const errorElement = this._validateForm.querySelector(`.${inputElement.id}-error`);
@@ -78,8 +69,8 @@ export default class FormValidator {
         // Находим все поля внутри формы,
         // сделаем из них массив методом Array.from
         const inputList = Array.from(this._validateForm.querySelectorAll(this._inputSelector));
-        // Вызовем prepareForm, чтобы подготовить поля формы к работе с пользователем
-        this._prepareForm();
+        // Отключаем сабмит если не валидно
+        this._toggleButtonState();
         // Обойдём все элементы полученной коллекции
         inputList.forEach((inputElement) => {
             // каждому полю добавим обработчик события input
@@ -91,6 +82,16 @@ export default class FormValidator {
                 this._toggleButtonState();
             });
         });
+    }
+
+    prepareForm() {
+        // метод подготовки попапа с формой для работы с пользователем
+        Array.from(this._validateForm.querySelectorAll(this._inputSelector))
+            .forEach((element) => {
+                this._hideInputError(element);
+        })
+        this._validateForm.reset();
+        this._handleDisableSubmit();
     }
 
     enableValidation() {
