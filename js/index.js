@@ -1,6 +1,7 @@
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 import {initialCards} from './data-cards.js';
-import {prepareForm, validationConfig} from './validate.js';
+import {validationConfig} from './validate.js';
 
 // Константы
 const ESC_KEY = 'Escape';
@@ -39,7 +40,8 @@ const cardTemplateClass = '#card-template';
 
 // Функция открытия попапа - редактирования профиля
 function openProfileEditPopup() {
-    prepareForm(profilePopup, validationConfig);
+    const profileFormValidate = new FormValidator(validationConfig, profileFormElement);
+    profileFormValidate.enableValidation();
     nameInputElement.value = userNameElement.textContent;
     aboutInputElement.value = userAboutElement.textContent;
     openPopup(profilePopup);
@@ -47,7 +49,8 @@ function openProfileEditPopup() {
 
 // Функция открытия попапа - добавления нового поста
 function openNewPostPopup() {
-    prepareForm(postPopup, validationConfig);
+    const newPostFormValidate = new FormValidator(validationConfig, postFormElement);
+    newPostFormValidate.enableValidation();
     openPopup(postPopup);
 }
 
@@ -121,9 +124,7 @@ function newPostFormSubmitHandler(evt) {
 
 // Функция отображения карточки на странице
 function renderCard(cardData, container) {
-    const newCard = new Card(cardData, cardTemplateClass, openBigPicPopup);
-    const cardElement = newCard.getCard();
-
+    const cardElement = new Card(cardData, cardTemplateClass, openBigPicPopup).getCard();
     container.prepend(cardElement);
 }
 

@@ -1,5 +1,4 @@
 export const validationConfig = {
-    formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save-btn',
     inputErrorClass: 'popup__input_type_error',
@@ -13,7 +12,7 @@ const disableSubmit = (formElement, config) => {
 }
 
 // Функция подготовки попапа с формой
-export const prepareForm = (activePopup, config) => {
+const prepareForm = (activePopup, config) => {
     const formElement = activePopup.querySelector(config.formSelector);
     const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
     inputList.forEach((inputElement) => {
