@@ -156,10 +156,14 @@ function newPostFormSubmitHandler(evt) {
     closeNewPostPopup();
 }
 
+// Функция создания экземпляра класса карточки
+function createCard(cardData) {
+    return new Card(cardData, cardTemplateClass, openBigPicPopup).getCard();
+}
+
 // Функция отображения карточки на странице
 function renderCard(cardData, container) {
-    const cardElement = new Card(cardData, cardTemplateClass, openBigPicPopup).getCard();
-    container.prepend(cardElement);
+    container.prepend(createCard(cardData));
 }
 
 initialCards.forEach((cardData) => {
