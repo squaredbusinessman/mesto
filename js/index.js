@@ -41,7 +41,6 @@ const validationConfig = {
 const ESC_KEY = 'Escape';
 
 // Используемые в проекте попапы и их общие элементы
-const overlays = document.querySelectorAll('.popup');
 const profilePopup = document.querySelector('.popup_id_profile-edit');
 const postPopup = document.querySelector('.popup_id_new-post');
 const picturePopup = document.querySelector('.popup_id_big-picture');
@@ -97,6 +96,7 @@ function openBigPicPopup(evt) {
 // Функция открытия попапов
 function openPopup(popupElement) {
     popupElement.classList.add('popup_visible');
+    popupElement.addEventListener('click', overlayClosePopup);
     document.addEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -132,6 +132,7 @@ function closeNewPostPopup() {
 function closePopup() {
     const activePopup = document.querySelector('.popup_visible');
     activePopup.classList.remove('popup_visible');
+    activePopup.removeEventListener('click', overlayClosePopup);
     document.removeEventListener('keyup', onEscKeyClosePopup);
 }
 
@@ -167,10 +168,6 @@ function renderCard(cardData, container) {
 
 initialCards.forEach((cardData) => {
     renderCard(cardData, cardsContainer);
-})
-
-overlays.forEach(function(overlay) {
-    overlay.addEventListener('click', overlayClosePopup);
 })
 
 nickEditButton.addEventListener('click', openProfileEditPopup);
