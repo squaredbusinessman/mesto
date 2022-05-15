@@ -1,12 +1,12 @@
-import Popup from "./Popup";
+import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
-    constructor(popupSelector, submitCallback) {
+    constructor(popupSelector, { submitCallback }) {
         super(popupSelector);
         this._submitCallback = submitCallback;
-        this._form = this._popup.forms; // находим форму попапа
+        this._form = this._popup.querySelector('.popup__form'); // находим форму попапа
         this._inputs = Array.from(this._form.elements); // создаём массив из коллекции инпутов формы попапа
-        this._inputsData = this._getInputValues();
+        this.inputsData = this._getInputValues();
         this._submitButton = this._form.querySelector('.popup__save-btn');
     }
 

@@ -1,5 +1,6 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import PopupWithForm from './PopupWithForm.js';
 
 // Моковые данные
 const initialCards = [
@@ -165,6 +166,16 @@ function createCard(cardData) {
 function renderCard(cardData, container) {
     container.prepend(createCard(cardData));
 }
+
+const editProfilePopup = new PopupWithForm(profilePopup, { submitCallback: (evt) => {
+        evt.preventDefault();
+        editProfilePopup.close();
+    }});
+
+const newPostPopup = new PopupWithForm(postPopup, { submitCallback: (evt) => {
+        evt.preventDefault();
+        newPostPopup.close();
+    }});
 
 initialCards.forEach((cardData) => {
     renderCard(cardData, cardsContainer);
