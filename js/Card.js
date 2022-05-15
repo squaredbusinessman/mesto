@@ -1,9 +1,9 @@
 export default class Card {
-    constructor(data, templateClass, handlePicClick) {
+    constructor(data, templateClass, { handleCardClick }) {
         this._name = data.name;
         this._link = data.link;
         this._templateClass = templateClass;
-        this._handlePicClick = handlePicClick;
+        this._handleCardClick = handleCardClick;
     }
 
     _setEventListeners() {
@@ -18,7 +18,7 @@ export default class Card {
         // обработчик открытия режима "большой картинки"
         this._element
             .querySelector('.card__pic')
-            .addEventListener('click', (evt) => this._handlePicClick(evt));
+            .addEventListener('click', this._handleCardClick);
     }
 
     _handleLikeClick() {

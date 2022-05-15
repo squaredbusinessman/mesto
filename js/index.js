@@ -1,6 +1,7 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import PopupWithForm from './PopupWithForm.js';
+import PopupWithImage from './PopupWithImage.js';
 
 // Моковые данные
 const initialCards = [
@@ -159,7 +160,14 @@ function newPostFormSubmitHandler(evt) {
 
 // Функция создания экземпляра класса карточки
 function createCard(cardData) {
-    return new Card(cardData, cardTemplateClass, openBigPicPopup).getCard();
+    return new Card(
+        cardData,
+        cardTemplateClass,
+        { handleCardClick: (evt) => { // связал класс Card с классом открытия попапа PopupWithImage
+            const popup = new PopupWithImage('.popup_id_big-picture');
+            popup.open(evt);
+            }}
+    ).getCard();
 }
 
 // Функция отображения карточки на странице
@@ -167,12 +175,12 @@ function renderCard(cardData, container) {
     container.prepend(createCard(cardData));
 }
 
-const editProfilePopup = new PopupWithForm(profilePopup, { submitCallback: (evt) => {
+const editProfilePopup = new PopupWithForm('.popup_id_profile-edit', { submitCallback: (evt) => {
         evt.preventDefault();
         editProfilePopup.close();
     }});
 
-const newPostPopup = new PopupWithForm(postPopup, { submitCallback: (evt) => {
+const newPostPopup = new PopupWithForm('.popup_id_new-post', { submitCallback: (evt) => {
         evt.preventDefault();
         newPostPopup.close();
     }});
