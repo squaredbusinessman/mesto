@@ -4,7 +4,8 @@
   "description": "My study project from Y.Practicum",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && webpack"
+    "build": "rimraf dist && webpack",
+    "dev": "webpack serve"
   },
   "repository": {
     "type": "git",
