@@ -5,16 +5,15 @@ export default class PopupWithForm extends Popup {
         super(popupSelector);
         this._submitCallback = submitCallback;
         this._form = this._popup.querySelector('.popup__form'); // находим форму попапа
-        this._inputs = Array.from(this._form.elements); // создаём массив из коллекции инпутов формы попапа
-        this.inputsData = this._getInputValues();
+        this._inputs = this._form.querySelectorAll('.popup__input'); // создаём массив из коллекции инпутов формы попапа
         this._submitButton = this._form.querySelector('.popup__save-btn');
     }
 
     _getInputValues() {
-        const inputsData = {}; // объект для данных из инпутов
-        this._inputs.forEach(
-            input => inputsData[input.name] = input.value // Запись данных с инпутов в объект
-        );
+        // объект для данных из инпутов
+        const inputsData = {};
+        // Запись данных с инпутов в объект
+        this._inputs.forEach(input => inputsData[input.name] = input.value);
         return inputsData;
     }
 
@@ -25,6 +24,6 @@ export default class PopupWithForm extends Popup {
 
     setEventListeners() {
         super.setEventListeners();
-        this._submitButton.addEventListener('click', evt => this._submitCallback(evt));
+        this._submitButton.addEventListener('submit', evt => this._submitCallback(evt));
     }
 }
