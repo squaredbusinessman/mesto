@@ -3,6 +3,7 @@ import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
+import Section from "./Section";
 
 // Моковые данные
 const initialCards = [
@@ -171,11 +172,6 @@ function createCard(cardData) {
     ).getCard();
 }
 
-// Функция отображения карточки на странице
-function renderCard(cardData, container) {
-    container.prepend(createCard(cardData));
-}
-
 const editProfilePopup = new PopupWithForm('.popup_id_profile-edit', { submitCallback: (evt) => {
         evt.preventDefault();
         editProfilePopup.close();
@@ -183,12 +179,25 @@ const editProfilePopup = new PopupWithForm('.popup_id_profile-edit', { submitCal
 
 const newPostPopup = new PopupWithForm('.popup_id_new-post', { submitCallback: (evt) => {
         evt.preventDefault();
+        const newCardData = {
+            name: picNameElement.value,
+            link: picSrcElement.value,
+        }
+
+        const newCard = new Section()
+        renderCard(newCardData, cardsContainer);
+
         newPostPopup.close();
     }});
 
-initialCards.forEach((cardData) => {
-    renderCard(cardData, cardsContainer);
-})
+const defaultCardList = new Section({ // Создаём дефолтный список карточек
+    itemsArray: initialCards,
+    rendererFunction: (item) => {
+        cardsContainer.prepend(createCard(item));
+    }
+}, cardsContainer);
+
+defaultCardList.renderItems(); // Отрисовываем дефолтный список карточек
 
 nickEditButton.addEventListener('click', openProfileEditPopup);
 postAddButton.addEventListener('click', openNewPostPopup);
