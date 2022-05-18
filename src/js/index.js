@@ -4,6 +4,7 @@ import FormValidator from './FormValidator.js';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import Section from "./Section";
+import UserInfo from "./UserInfo";
 
 // Моковые данные
 const initialCards = [
@@ -41,33 +42,20 @@ const validationConfig = {
     errorClass: 'popup__input-error_visible',
 };
 
-// Константы
-const ESC_KEY = 'Escape';
-
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
 const postPopup = document.querySelector('.popup_id_new-post');
-const picturePopup = document.querySelector('.popup_id_big-picture');
-const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
 
 // Необходимые элементы popup
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const nameInputElement = profileFormElement.querySelector('.popup__input_type_name');
 const aboutInputElement = profileFormElement.querySelector('.popup__input_type_about');
-const profileFormSubmit = profilePopup.querySelector('.popup__save-btn');
 
 const postFormElement = postPopup.querySelector('.popup__form');
-const picNameElement = postFormElement.querySelector('.popup__input_type_name');
-const picSrcElement = postFormElement.querySelector('.popup__input_type_about');
-const postFormSubmit = postPopup.querySelector('.popup__save-btn');
 
-const picElement = picturePopup.querySelector('.popup__img');
-const picTitleElement = picturePopup.querySelector('.popup__name');
 
 // Необходимые элементы блока user
 const userSectionElement = document.querySelector('.user');
-const userNameElement = userSectionElement.querySelector('.user__name');
-const userAboutElement = userSectionElement.querySelector('.user__about');
 const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 
@@ -75,122 +63,52 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
-// Функция открытия попапа - редактирования профиля
-function openProfileEditPopup() {
-    profileFormValidate.prepareForm();
-    nameInputElement.value = userNameElement.textContent;
-    aboutInputElement.value = userAboutElement.textContent;
-    openPopup(profilePopup);
-}
-
-// Функция открытия попапа - добавления нового поста
-function openNewPostPopup() {
-    newPostFormValidate.prepareForm();
-    openPopup(postPopup);
-}
-
-// Функция открытия попапа - фотографии поста в большом размере
-function openBigPicPopup(evt) {
-    picElement.src = evt.target.src;
-    picElement.alt = evt.target.alt;
-    picTitleElement.textContent = evt.target.alt;
-    openPopup(picturePopup);
-}
-
-// Функция открытия попапов
-function openPopup(popupElement) {
-    popupElement.classList.add('popup_visible');
-    popupElement.addEventListener('click', overlayClosePopup);
-    document.addEventListener('keyup', onEscKeyClosePopup);
-}
-
-// Функция закрытия попапов нажатием ESC
-function onEscKeyClosePopup(evt) {
-    if (evt.key === ESC_KEY) {
-        closePopup();
-    }
-}
-
-// Функция закрытия попапа - редактирования профиля
-function closeProfileEditPopup() {
-    nameInputElement.value = userNameElement.textContent;
-    aboutInputElement.value = userAboutElement.textContent;
-    closePopup(profilePopup);
-}
-
-// Функция закрытия при клике на оверлей
-function overlayClosePopup(evt) {
-    evt.stopPropagation();
-    if (evt.target.classList.contains('popup')) {
-        closePopup();
-    }
-
-}
-
-// Функция закрытия попапа - добавления нового поста
-function closeNewPostPopup() {
-    closePopup(postPopup);
-}
-
-// Функция закрытия попапов
-function closePopup() {
-    const activePopup = document.querySelector('.popup_visible');
-    activePopup.classList.remove('popup_visible');
-    activePopup.removeEventListener('click', overlayClosePopup);
-    document.removeEventListener('keyup', onEscKeyClosePopup);
-}
-
-// Функция отправки формы редактирования профиля
-function editFormSubmitHandler(evt) {
-    evt.preventDefault();
-        userNameElement.textContent = nameInputElement.value;
-        userAboutElement.textContent = aboutInputElement.value;
-        closeProfileEditPopup();
-}
-
-// Функция отправки формы создания нового поста
-function newPostFormSubmitHandler(evt) {
-    evt.preventDefault();
-    const newCardData = {
-        name: picNameElement.value,
-        link: picSrcElement.value,
-    }
-
-   renderCard(newCardData, cardsContainer);
-    closeNewPostPopup();
-}
-
 // Функция создания экземпляра класса карточки
 function createCard(cardData) {
     return new Card(
         cardData,
         cardTemplateClass,
-        { handleCardClick: (evt) => { // связал класс Card с классом открытия попапа PopupWithImage
+        { handleCardClick: () => {
+            // связал класс Card с классом открытия попапа PopupWithImage
             const popup = new PopupWithImage('.popup_id_big-picture');
-            popup.open(evt);
+            popup.open();
             }}
     ).getCard();
 }
 
-const editProfilePopup = new PopupWithForm('.popup_id_profile-edit', { submitCallback: (evt) => {
-        evt.preventDefault();
-        editProfilePopup.close();
+// Экземпляр класса данных пользователя
+const userData = new UserInfo({
+    userNameSelector: '.user__name',
+    userAboutSelector: '.user__about'
+})
+
+const editProfilePopup = new PopupWithForm({
+// Создаём экземпляр класса для попапа с изменением информации юзера
+        popupSelector: '.popup_id_profile-edit',
+    }, {
+        submitCallback: () => {
+            userData.setUserInfo(editProfilePopup.getInputValues());
+
+            editProfilePopup.close();
+    }
+});
+
+editProfilePopup.setEventListeners(); // Инициализируем слушатели
+
+const newPostPopup = new PopupWithForm({
+// Создаём экземпляр класса для попала нового поста
+        popupSelector: '.popup_id_new-post'
+    }, {
+        submitCallback: () => {
+            cardsContainer.prepend(createCard(newPostPopup.getInputValues()));
+
+            newPostPopup.close();
     }});
 
-const newPostPopup = new PopupWithForm('.popup_id_new-post', { submitCallback: (evt) => {
-        evt.preventDefault();
-        const newCardData = {
-            name: picNameElement.value,
-            link: picSrcElement.value,
-        }
+newPostPopup.setEventListeners(); // Инициализируем слушатели
 
-        const newCard = new Section()
-        renderCard(newCardData, cardsContainer);
-
-        newPostPopup.close();
-    }});
-
-const defaultCardList = new Section({ // Создаём дефолтный список карточек
+const defaultCardList = new Section({
+    // Создаём дефолтный список карточек
     itemsArray: initialCards,
     rendererFunction: (item) => {
         cardsContainer.prepend(createCard(item));
@@ -199,14 +117,20 @@ const defaultCardList = new Section({ // Создаём дефолтный сп�
 
 defaultCardList.renderItems(); // Отрисовываем дефолтный список карточек
 
-nickEditButton.addEventListener('click', openProfileEditPopup);
-postAddButton.addEventListener('click', openNewPostPopup);
-profileFormSubmit.addEventListener('click', editFormSubmitHandler);
-postFormSubmit.addEventListener('click', newPostFormSubmitHandler);
-
-popupCloseButtons.forEach(function(button) {
-    button.addEventListener('click', closePopup);
+nickEditButton.addEventListener('click', () => {
+    // перенёс логику подготовки в обработчик открытия попапа
+    profileFormValidate.prepareForm();
+    nameInputElement.value = userData.getUserInfo().name;
+    aboutInputElement.value = userData.getUserInfo().about;
+    editProfilePopup.open();
 });
+
+postAddButton.addEventListener('click', () => {
+    // перенёс логику подготовки в обработчик открытия попапа
+    newPostFormValidate.prepareForm();
+    newPostPopup.open()
+});
+
 
 const profileFormValidate = new FormValidator(validationConfig, profileFormElement);
 profileFormValidate.enableValidation();

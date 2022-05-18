@@ -18,7 +18,7 @@ export default class Card {
         // обработчик открытия режима "большой картинки"
         this._element
             .querySelector('.card__pic')
-            .addEventListener('click', this._handleCardClick);
+            .addEventListener('click', () => { this._handleCardClick() });
     }
 
     _handleLikeClick() {
