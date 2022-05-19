@@ -63,15 +63,19 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
+// Слздаём экземпляр класса попапа с картинкой
+const bigPicturePopup = new PopupWithImage({ popupSelector: '.popup_id_big-picture' });
+// Вешаем необходимые обработчики
+bigPicturePopup.setEventListeners();
+
 // Функция создания экземпляра класса карточки
 function createCard(cardData) {
     return new Card(
         cardData,
         cardTemplateClass,
-        { handleCardClick: () => {
-            // связал класс Card с классом открытия попапа PopupWithImage
-            const popup = new PopupWithImage('.popup_id_big-picture');
-            popup.open();
+        { handleCardClick: (evt) => {
+                console.log(cardData);
+                bigPicturePopup.open(cardData);
             }}
     ).getCard();
 }
@@ -87,7 +91,7 @@ const editProfilePopup = new PopupWithForm({
         popupSelector: '.popup_id_profile-edit',
     }, {
         submitCallback: () => {
-            userData.setUserInfo(editProfilePopup.getInputValues());
+            userData.setUserInfo(editProfilePopup.dataFromInputs);
 
             editProfilePopup.close();
     }
@@ -100,7 +104,7 @@ const newPostPopup = new PopupWithForm({
         popupSelector: '.popup_id_new-post'
     }, {
         submitCallback: () => {
-            cardsContainer.prepend(createCard(newPostPopup.getInputValues()));
+            cardsContainer.prepend(createCard(newPostPopup.dataFromInputs));
 
             newPostPopup.close();
     }});
@@ -110,8 +114,9 @@ newPostPopup.setEventListeners(); // Инициализируем слушате
 const defaultCardList = new Section({
     // Создаём дефолтный список карточек
     itemsArray: initialCards,
-    rendererFunction: (item) => {
-        cardsContainer.prepend(createCard(item));
+    rendererFunction: (cardData) => {
+        const card = createCard(cardData);
+        defaultCardList.addItem({ element: card, place: 'append'});
     }
 }, cardsContainer);
 
@@ -130,7 +135,6 @@ postAddButton.addEventListener('click', () => {
     newPostFormValidate.prepareForm();
     newPostPopup.open()
 });
-
 
 const profileFormValidate = new FormValidator(validationConfig, profileFormElement);
 profileFormValidate.enableValidation();

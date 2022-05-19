@@ -1,7 +1,6 @@
 export default class Popup {
     constructor({ popupSelector }) {
         this._popup = document.querySelector(popupSelector);
-        this._buttonClose = this._popup.querySelector('.popup__close-btn');
     }
 
     _handleEscClose(evt) { // приватный метод закрытия попапа нажатием Esc
@@ -26,6 +25,8 @@ export default class Popup {
     }
 
     setEventListeners() { // публичный метод установки и удаления необходимых обработчиков
+        this._buttonClose = this._popup.querySelector('.popup__close-btn');
+
         this._popup.addEventListener('click', evt => this._handleOverlayClose(evt));
         document.addEventListener('keyup', evt => this._handleEscClose(evt));
         this._buttonClose.addEventListener('click', () => this.close());

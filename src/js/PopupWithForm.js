@@ -6,9 +6,10 @@ export default class PopupWithForm extends Popup {
         this._submitCallback = submitCallback;
         // находим форму попапа
         this._form = this._popup.querySelector('.popup__form');
+
     }
 
-    getInputValues() {
+    _getInputValues() {
         // создаём массив из коллекции инпутов формы попапа
         this._inputs = this._form.querySelectorAll('.popup__input');
         // объект для данных из инпутов
@@ -27,7 +28,10 @@ export default class PopupWithForm extends Popup {
     setEventListeners() {
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._submitCallback(this.getInputValues());
+            // данные собранные с инпутов формы
+            this.dataFromInputs = this._getInputValues();
+            // передаём собранные данные во внешнюю функцию-обработчик, чтобы работать с ними извне
+            this._submitCallback(this.dataFromInputs);
         });
 
         super.setEventListeners();
