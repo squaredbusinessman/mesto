@@ -31,9 +31,9 @@ export default class Card {
 
     _handleRemoveButtonClick() {
         // удаление карточки по клику на иконку мусорки
-        this._element
-            .closest('.card')
-            .remove();
+        this._element.remove();
+        // нуллим карточку после удаления
+        this._element = null;
     }
 
     _getTemplate() {
