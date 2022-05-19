@@ -104,7 +104,8 @@ const newPostPopup = new PopupWithForm({
         popupSelector: '.popup_id_new-post'
     }, {
         submitCallback: () => {
-            cardsContainer.prepend(createCard(newPostPopup.dataFromInputs));
+            const newCard = createCard(newPostPopup.dataFromInputs);
+            defaultCardList.addItem({ element: newCard, place: 'prepend'});
 
             newPostPopup.close();
     }});
