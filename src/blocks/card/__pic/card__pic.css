@@ -1,6 +1,6 @@
 .card__pic {
   width: 282px;
-  height: 282px;
+  min-height: 282px;
   cursor: pointer;
   object-fit: cover;
   border-top-left-radius: 10px;
