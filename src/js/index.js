@@ -63,7 +63,7 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
-// Слздаём экземпляр класса попапа с картинкой
+// Создаём экземпляр класса попапа с картинкой
 const bigPicturePopup = new PopupWithImage({ popupSelector: '.popup_id_big-picture' });
 // Вешаем необходимые обработчики
 bigPicturePopup.setEventListeners();
