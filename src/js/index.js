@@ -1,46 +1,11 @@
 import '../pages/index.css';
+import { initialCards, validationConfig } from './data.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import Section from "./Section";
 import UserInfo from "./UserInfo";
-
-// Моковые данные
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
-// Конфиги
-const validationConfig = {
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__save-btn',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__input-error_visible',
-};
 
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
@@ -73,8 +38,7 @@ function createCard(cardData) {
     return new Card(
         cardData,
         cardTemplateClass,
-        { handleCardClick: (evt) => {
-                console.log(cardData);
+        { handleCardClick: () => {
                 bigPicturePopup.open(cardData);
             }}
     ).getCard();

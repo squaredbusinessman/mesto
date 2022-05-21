@@ -18,17 +18,20 @@ export default class Popup {
 
     open() { // публичный метод открытия попапа
         this._popup.classList.add('popup_visible');
+
+        document.addEventListener('keyup', this._handleEscClose.bind(this));
     }
 
     close() { // публичный метод закрытия попапа
         this._popup.classList.remove('popup_visible');
+
+        document.removeEventListener('keyup', this._handleEscClose.bind(this));
     }
 
     setEventListeners() { // публичный метод установки и удаления необходимых обработчиков
         this._buttonClose = this._popup.querySelector('.popup__close-btn');
 
         this._popup.addEventListener('click', evt => this._handleOverlayClose(evt));
-        document.addEventListener('keyup', evt => this._handleEscClose(evt));
         this._buttonClose.addEventListener('click', () => this.close());
     }
 }
