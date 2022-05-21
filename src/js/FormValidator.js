@@ -6,17 +6,18 @@ export default class FormValidator {
                     errorClass
                 }, validateForm) {
         this._inputSelector = inputSelector;
-        this._submitButtonSelector = submitButtonSelector;
         this._inputErrorClass = inputErrorClass;
         this._errorClass = errorClass;
         this._validateForm = validateForm;
+        this._submitButton = this._validateForm.querySelector(submitButtonSelector);
+        // Находим все поля внутри формы,
+        // сделаем из них массив методом Array.from
+        this._inputList = Array.from(this._validateForm.querySelectorAll(this._inputSelector));
     }
 
     _handleDisableSubmit() {
         // обработчик дизейбла кнопки при повторном открытии формы
-        this._validateForm
-            .querySelector(this._submitButtonSelector)
-            .setAttribute('disabled', 'disabled');
+        this._submitButton.setAttribute('disabled', 'disabled');
     }
 
     _showInputError(inputElement) {
@@ -41,14 +42,10 @@ export default class FormValidator {
         // Если есть хотя бы один невалидный инпут
         if (!this._validateForm.checkValidity()) {
             // сделай кнопку неактивной
-            this._validateForm
-                .querySelector(this._submitButtonSelector)
-                .setAttribute('disabled', 'disabled');
+            this._submitButton.setAttribute('disabled', 'disabled');
         } else {
             // иначе сделай кнопку активной
-            this._validateForm
-                .querySelector(this._submitButtonSelector)
-                .removeAttribute('disabled');
+            this._submitButton.removeAttribute('disabled');
         }
     }
 
@@ -66,13 +63,10 @@ export default class FormValidator {
     }
 
     _setEventListeners() {
-        // Находим все поля внутри формы,
-        // сделаем из них массив методом Array.from
-        const inputList = Array.from(this._validateForm.querySelectorAll(this._inputSelector));
         // Отключаем сабмит если не валидно
         this._toggleButtonState();
         // Обойдём все элементы полученной коллекции
-        inputList.forEach((inputElement) => {
+        this._inputList.forEach((inputElement) => {
             // каждому полю добавим обработчик события input
             inputElement.addEventListener('input', () => {
                 // Внутри колбэка вызовем _checkInputValidity,
