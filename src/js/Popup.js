@@ -19,14 +19,12 @@ export default class Popup {
 
     open() { // публичный метод открытия попапа
         this._popup.classList.add('popup_visible');
-        debugger
 
         document.addEventListener('keyup', this._handleEscCloseBind);
     }
 
     close() { // публичный метод закрытия попапа
         this._popup.classList.remove('popup_visible');
-        debugger
 
         document.removeEventListener('keyup', this._handleEscCloseBind);
     }
