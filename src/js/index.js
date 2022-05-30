@@ -7,6 +7,23 @@ import PopupWithImage from './PopupWithImage.js';
 import Section from "./Section";
 import UserInfo from "./UserInfo";
 
+// Получаем данные оп пользователе с сервера
+const userDataFromServer = fetch('https://mesto.nomoreparties.co/v1/cohort-42/users/me', {
+    headers: {
+        authorization: '7f1a4a53-4bab-4bd4-9a8f-30c3df078826'
+    }
+})
+    .then((res) => {
+        if (res.ok) {
+            return res.json();
+    } else {
+            return Promise.reject('Ошибка при получении данных пользователя');
+        }
+    })
+    .then((data) => {
+        console.log(data);
+    });
+
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
 const postPopup = document.querySelector('.popup_id_new-post');
