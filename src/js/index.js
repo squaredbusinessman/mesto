@@ -1,28 +1,11 @@
 import '../pages/index.css';
-import { initialCards, validationConfig } from './data.js';
+import { validationConfig } from './data.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import Section from "./Section";
 import UserInfo from "./UserInfo";
-
-// Получаем данные оп пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
-fetch('https://mesto.nomoreparties.co/v1/cohort-42/users/me', {
-    headers: {
-        authorization: '7f1a4a53-4bab-4bd4-9a8f-30c3df078826'
-    }
-})
-    .then((res) => {
-        if (res.ok) {
-            return res.json();
-    } else {
-            return Promise.reject('Ошибка при получении данных пользователя');
-        }
-    })
-    .then((data) => {
-        userData.setUserInfo(data);
-    });
 
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
@@ -44,6 +27,53 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 // Необходимые элементы карточек
 const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
+
+// Получаем данные о пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
+fetch('https://mesto.nomoreparties.co/v1/cohort-42/users/me', {
+    headers: {
+        authorization: '7f1a4a53-4bab-4bd4-9a8f-30c3df078826',
+        'Content-Type': 'application/json'
+    }
+})
+    .then((res) => {
+        if (res.ok) {
+            return res.json();
+    } else {
+            return Promise.reject('Произошла ошибка при получении данных пользователя');
+        }
+    })
+    .then((data) => {
+        userData.setUserInfo(data);
+    })
+    .catch((err) => console.log('Произошла ошибка ' + err));
+
+// Получаем данные о карточках ГЕТ-запросом
+fetch('https://mesto.nomoreparties.co/v1/cohort-42/cards', {
+    headers: {
+        authorization: '7f1a4a53-4bab-4bd4-9a8f-30c3df078826',
+        'Content-Type': 'application/json'
+    }
+})
+    .then((res) => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            return Promise.reject('Произошла ошибка при получении данных каточек')
+        }
+    })
+    .then((cardsData) => {
+        const defaultCardList = new Section({
+            // Создаём дефолтный список карточек
+            itemsArray: cardsData,
+            rendererFunction: (cardData) => {
+                const card = createCard(cardData);
+                defaultCardList.addItem({ element: card, place: 'append'});
+            }
+        }, cardsContainer);
+
+        defaultCardList.renderItems(); // Отрисовываем дефолтный список карточек
+    })
+    .catch((err) => console.log('Произошла ошибка ' + err));
 
 // Создаём экземпляр класса попапа с картинкой
 const bigPicturePopup = new PopupWithImage({ popupSelector: '.popup_id_big-picture' });
@@ -93,17 +123,6 @@ const newPostPopup = new PopupWithForm({
     }});
 
 newPostPopup.setEventListeners(); // Инициализируем слушатели
-
-const defaultCardList = new Section({
-    // Создаём дефолтный список карточек
-    itemsArray: initialCards,
-    rendererFunction: (cardData) => {
-        const card = createCard(cardData);
-        defaultCardList.addItem({ element: card, place: 'append'});
-    }
-}, cardsContainer);
-
-defaultCardList.renderItems(); // Отрисовываем дефолтный список карточек
 
 nickEditButton.addEventListener('click', () => {
     // перенёс логику подготовки в обработчик открытия попапа
