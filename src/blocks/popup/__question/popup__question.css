@@ -1,0 +1,11 @@
+.popup__question {
+  margin: 0;
+
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 120%;
+  align-self: flex-start;
+
+  color: #000000;
+}

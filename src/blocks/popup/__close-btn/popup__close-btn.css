@@ -59,3 +59,17 @@
     height: 2px;
   }
 }
+
+.popup__wrapper_type_confirm .popup__close-btn {
+  right: -30px;
+}
+
+.popup__wrapper_type_confirm .popup__close-btn:before {
+  width: 32px;
+  height: 4px;
+}
+
+.popup__wrapper_type_confirm .popup__close-btn:after {
+  width: 32px;
+  height: 4px;
+}

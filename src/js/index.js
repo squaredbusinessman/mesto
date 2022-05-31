@@ -7,6 +7,7 @@ import PopupWithImage from './PopupWithImage.js';
 import Section from './Section';
 import UserInfo from './UserInfo';
 import Api from './Api';
+import Popup from "./Popup";
 
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
@@ -53,6 +54,13 @@ function createCard(cardData) {
             }}
     ).getCard();
 }
+
+// Создаём экземпляр класса попапа подтверждения удаления карточки
+const deleteConfirmPopup = new Popup({ popupSelector: '.popup_id_delete-confirm' });
+
+// Вешаем обработчики
+deleteConfirmPopup.setEventListeners();
+deleteConfirmPopup.open();
 
 // Экземпляр класса данных пользователя
 const userData = new UserInfo({
