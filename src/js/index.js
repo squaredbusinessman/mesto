@@ -60,7 +60,6 @@ const deleteConfirmPopup = new Popup({ popupSelector: '.popup_id_delete-confirm'
 
 // Вешаем обработчики
 deleteConfirmPopup.setEventListeners();
-deleteConfirmPopup.open();
 
 // Экземпляр класса данных пользователя
 const userData = new UserInfo({
