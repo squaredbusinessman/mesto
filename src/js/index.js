@@ -37,25 +37,9 @@ const defaultCardList = new Section({
     }
 }, cardsContainer);
 
-// Создаём экземпляр класса Апи
-const api = new Api(apiConfig);
-
-// Получаем данные о пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
-api.getProfile()
-    .then((data) => {
-        userData.setUserInfo(data);
-    })
-    .catch((err) => console.log('Произошла ошибка ' + err));
-
-// Получаем данные о карточках ГЕТ-запросом
-api.getCards()
-    .then((cardsData) => {
-        defaultCardList.renderItems(cardsData); // Отрисовываем дефолтный список карточек
-    })
-    .catch((err) => console.log('Произошла ошибка ' + err));
-
 // Создаём экземпляр класса попапа с картинкой
 const bigPicturePopup = new PopupWithImage({ popupSelector: '.popup_id_big-picture' });
+
 // Вешаем необходимые обработчики
 bigPicturePopup.setEventListeners();
 
@@ -76,32 +60,60 @@ const userData = new UserInfo({
     userAboutSelector: '.user__about'
 })
 
-
-const editProfilePopup = new PopupWithForm({
 // Создаём экземпляр класса для попапа с изменением информации юзера
-        popupSelector: '.popup_id_profile-edit',
-    }, {
-        submitCallback: () => {
-            userData.setUserInfo(editProfilePopup.dataFromInputs);
+const editProfilePopup = new PopupWithForm({
+    popupSelector: '.popup_id_profile-edit',
+}, {
+    submitCallback: () => {
+        api.updateProfile(editProfilePopup.dataFromInputs)
+            .then(() => {
+                userData.setUserInfo(editProfilePopup.dataFromInputs);
+                editProfilePopup.close();
+            })
+            .catch(err => console.log(`Произошла ошибка при отправке новых данных пользователя ${err}`));
 
-            editProfilePopup.close();
     }
 });
 
-editProfilePopup.setEventListeners(); // Инициализируем слушатели
+// Инициализируем слушатели на попапе редактирования юзер-инфо
+editProfilePopup.setEventListeners();
 
-const newPostPopup = new PopupWithForm({
 // Создаём экземпляр класса для попала нового поста
-        popupSelector: '.popup_id_new-post'
-    }, {
-        submitCallback: () => {
-            const newCard = createCard(newPostPopup.dataFromInputs);
-            defaultCardList.addItem({ element: newCard, place: 'prepend'});
+const newPostPopup = new PopupWithForm({
+    popupSelector: '.popup_id_new-post'
+}, {
+    submitCallback: () => {
+        // используя метод api отправляем новую карточку на сервер
+        api.addCard(newPostPopup.dataFromInputs)
+            .then(() => {
+                const newCard = createCard(newPostPopup.dataFromInputs);
+                defaultCardList.addItem({ element: newCard, place: 'prepend'});
+                newPostPopup.close();
+            })
+            .catch(err => console.log(`Произошла ошибка при отправке данных новой карточки ${err}`));
 
-            newPostPopup.close();
     }});
 
-newPostPopup.setEventListeners(); // Инициализируем слушатели
+// Инициализируем слушатели на попапе добавления новой карточки
+newPostPopup.setEventListeners();
+
+// Создаём экземпляр класса Апи
+const api = new Api(apiConfig);
+
+// Получаем данные о пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
+api.getProfile()
+    .then((data) => {
+        userData.setUserInfo(data);
+    })
+    .catch((err) => console.log('Произошла ошибка ' + err));
+
+// Получаем данные о карточках ГЕТ-запросом
+api.getCards()
+    .then((cardsData) => {
+        defaultCardList.renderItems(cardsData); // Отрисовываем дефолтный список карточек
+    })
+    .catch((err) => console.log('Произошла ошибка ' + err));
+
 
 nickEditButton.addEventListener('click', () => {
     // перенёс логику подготовки в обработчик открытия попапа
