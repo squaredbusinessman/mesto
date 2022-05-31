@@ -92,8 +92,9 @@ const newPostPopup = new PopupWithForm({
     submitCallback: () => {
         // используя метод api отправляем новую карточку на сервер
         api.addCard(newPostPopup.dataFromInputs)
-            .then(() => {
-                const newCard = createCard(newPostPopup.dataFromInputs);
+            .then((cardData) => {
+                console.log(cardData);
+                const newCard = createCard(cardData);
                 defaultCardList.addItem({ element: newCard, place: 'prepend'});
                 newPostPopup.close();
             })

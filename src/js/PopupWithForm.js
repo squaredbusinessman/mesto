@@ -17,6 +17,7 @@ export default class PopupWithForm extends Popup {
         // Запись данных с инпутов в объект
         this._inputs.forEach(input => inputsData[input.name] = input.value);
 
+
         return inputsData;
     }
 

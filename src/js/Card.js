@@ -1,8 +1,9 @@
 export default class Card {
-    constructor(data, templateClass, { handleCardClick, handleLikeClick, handleDeleteClick }) {
+    constructor(data , templateClass, { handleCardClick, handleLikeClick, handleDeleteClick }) {
         this._name = data.name;
         this._link = data.link;
-        this._likes = data['likes'].length;
+        this._likes = data['likes'];
+        this._ownerId = data['owner']['_id'];
         this._templateClass = templateClass;
         this._handleCardClick = handleCardClick;
         this._handleLikeClick = handleLikeClick;
@@ -59,7 +60,13 @@ export default class Card {
         this._element.querySelector('.card__pic').src = this._link;
         this._element.querySelector('.card__pic').alt = this._name;
         this._element.querySelector('.card__title').textContent = this._name;
-        this._element.querySelector('.card__likes-counter').textContent = this._likes;
+        this._element.querySelector('.card__likes-counter').textContent = this._likes.length;
+        // запустим проверку на владельца карточки, для правильного отображения иконки удаления
+        if (this._ownerId !== 'abf71472726170af2c2a2e82') {
+            this._element
+                .querySelector('.card__remove')
+                .remove();
+        }
         // вернём элемент карточки наружу
         return this._element;
     }
