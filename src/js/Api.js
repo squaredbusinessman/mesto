@@ -55,11 +55,30 @@ export default class Api {
 
     }
 
-    updateAvatar = (data) => {}
+    updateAvatar = (url) => {
+        return fetch(`${this._profileUrl}/avatar` , {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify(url)
+        })
+            .then(this._handleResponse);
+    }
 
-    cardLike = () => {}
+    cardLike = (id) => {
+        return fetch(`${this._cardsUrl}/${id}/likes`, {
+            method: 'PUT',
+            headers: this._headers
+        })
+            .then(this._handleResponse);
+    }
 
-    cardDislike = () => {}
+    cardDislike = () => {
+        return fetch(`${this._cardsUrl}/${id}/likes`, {
+            method: 'DELETE',
+            headers: this._headers
+        })
+            .then(this._handleResponse);
+    }
 
     getAllData = () => {
         return Promise.all([this.getProfile(this._profileUrl), this.getCards(this._cardsUrl)]);
