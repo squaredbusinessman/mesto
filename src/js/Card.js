@@ -1,27 +1,32 @@
 export default class Card {
-    constructor(data, templateClass, { handleCardClick }) {
+    constructor(data, templateClass, { handleCardClick, handleLikeClick, handleDeleteClick }) {
         this._name = data.name;
         this._link = data.link;
+        this._likes = data['likes'].length;
         this._templateClass = templateClass;
         this._handleCardClick = handleCardClick;
+        this._handleLikeClick = handleLikeClick;
+        this._handleDeleteClick = handleDeleteClick;
     }
 
     _setEventListeners() {
         // обработчик лайка
         this._element
             .querySelector('.card__like')
-            .addEventListener('click', () => this._handleLikeClick());
+            .addEventListener('click', () => { this._handleLikeClick() });
+
         // обработчик удаления карточки
         this._element
             .querySelector('.card__remove')
-            .addEventListener('click', () => this._handleRemoveButtonClick());
+            .addEventListener('click', () => { this._handleDeleteClick() });
+
         // обработчик открытия режима "большой картинки"
         this._element
             .querySelector('.card__pic')
             .addEventListener('click', () => { this._handleCardClick() });
     }
 
-    _handleLikeClick() {
+    _handleLikeClic() {
         // активация лайка на карточке
         this._element
             .querySelector('.card__like')
@@ -54,6 +59,7 @@ export default class Card {
         this._element.querySelector('.card__pic').src = this._link;
         this._element.querySelector('.card__pic').alt = this._name;
         this._element.querySelector('.card__title').textContent = this._name;
+        this._element.querySelector('.card__likes-counter').textContent = this._likes;
         // вернём элемент карточки наружу
         return this._element;
     }
