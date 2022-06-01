@@ -46,6 +46,7 @@
     <ul class="cards"></ul>
   </section>
 
+<!--  Попап редактирования информации пользователя -->
   <div class="popup popup_id_profile-edit">
     <div class="popup__wrapper">
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -98,6 +99,7 @@
     </div>
   </div>
 
+<!--  Попап добавления новой карточки -->
   <div class="popup popup_id_new-post">
     <div class="popup__wrapper">
       <h2 class="popup__title">Новое место</h2>
@@ -150,6 +152,7 @@
     </div>
   </div>
 
+<!--  Попап просмотра фотографии карточки -->
   <div class="popup popup_id_big-picture">
     <div class="popup__container">
       <img
@@ -166,13 +169,17 @@
     </div>
   </div>
 
+<!--  Попап подтверждения удаления карточки -->
   <div class="popup popup_id_delete-confirm">
-    <div class="popup__wrapper popup__wrapper_type_confirm">
+    <form class="popup__form popup__form_type_confirm"
+          name="deleteConfirmForm"
+          action="#"
+          method="post">
       <p class="popup__question">
         Вы уверены?
       </p>
       <button
-              type="button"
+              type="submit"
               class="popup__save-btn"
       >
         Да
@@ -182,14 +189,18 @@
               class="popup__close-btn"
               aria-label="Кнопка закрытия попапа"
       ></button>
-    </div>
+    </form>
   </div>
+
+<!--  Попап изменения аватара пользователя -->
+
 
 </main>
 <footer class="footer">
   <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
 </footer>
 
+<!-- Шаблон карточки -->
 <template id="card-template">
   <li class="card">
     <img

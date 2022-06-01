@@ -3,6 +3,7 @@ export default class Card {
         this._name = data.name;
         this._link = data.link;
         this._likes = data['likes'];
+        this._id = data['_id'];
         this._ownerId = data['owner']['_id'];
         this._templateClass = templateClass;
         this._handleCardClick = handleCardClick;
@@ -14,12 +15,12 @@ export default class Card {
         // обработчик лайка
         this._element
             .querySelector('.card__like')
-            .addEventListener('click', () => { this._handleLikeClick() });
+            .addEventListener('click', () => { this._handleLikeClick(this) });
 
         // обработчик удаления карточки
         this._element
             .querySelector('.card__remove')
-            .addEventListener('click', () => { this._handleDeleteClick() });
+            .addEventListener('click', () => { this._handleDeleteClick(this) });
 
         // обработчик открытия режима "большой картинки"
         this._element
@@ -27,7 +28,7 @@ export default class Card {
             .addEventListener('click', () => { this._handleCardClick() });
     }
 
-    _handleLikeClic() {
+    activateLike() {
         // активация лайка на карточке
         this._element
             .querySelector('.card__like')
@@ -35,7 +36,7 @@ export default class Card {
             .toggle('card__like_active');
     }
 
-    _handleRemoveButtonClick() {
+    deleteCard() {
         // удаление карточки по клику на иконку мусорки
         this._element.remove();
         // нуллим карточку после удаления

@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { validationConfig, apiConfig } from './data.js';
+import {apiConfig, validationConfig} from './data.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import PopupWithForm from './PopupWithForm.js';
@@ -7,7 +7,7 @@ import PopupWithImage from './PopupWithImage.js';
 import Section from './Section';
 import UserInfo from './UserInfo';
 import Api from './Api';
-import Popup from "./Popup";
+import PopupWithSubmit from "./PopupWithSubmit";
 
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
@@ -49,17 +49,37 @@ function createCard(cardData) {
     return new Card(
         cardData,
         cardTemplateClass,
-        { handleCardClick: () => {
+        {
+            handleCardClick: () => {
                 bigPicturePopup.open(cardData);
-            }}
+            },
+            handleLikeClick: () => {
+
+            },
+            handleDeleteClick: () => {
+                deleteConfirmPopup.open(cardData);
+            }
+        }
     ).getCard();
 }
 
 // Создаём экземпляр класса попапа подтверждения удаления карточки
-const deleteConfirmPopup = new Popup({ popupSelector: '.popup_id_delete-confirm' });
+const deleteConfirmPopup = new PopupWithSubmit({
+    popupSelector: '.popup_id_delete-confirm',
+    submitHandler: (card) => {
+        api.deleteCard(card)
+            .then(() => {
+                card.remove();
+                card = null;
+                deleteConfirmPopup.close();
+            })
+            .catch(err => console.error(`Произошла ошибка при удалении карточки ${err}`))
+    }
+});
 
-// Вешаем обработчики
 deleteConfirmPopup.setEventListeners();
+
+
 
 // Экземпляр класса данных пользователя
 const userData = new UserInfo({
@@ -73,8 +93,8 @@ const editProfilePopup = new PopupWithForm({
 }, {
     submitCallback: () => {
         api.updateProfile(editProfilePopup.dataFromInputs)
-            .then(() => {
-                userData.setUserInfo(editProfilePopup.dataFromInputs);
+            .then((data) => {
+                userData.setUserInfo(data);
                 editProfilePopup.close();
             })
             .catch(err => console.log(`Произошла ошибка при отправке новых данных пользователя ${err}`));
@@ -93,7 +113,6 @@ const newPostPopup = new PopupWithForm({
         // используя метод api отправляем новую карточку на сервер
         api.addCard(newPostPopup.dataFromInputs)
             .then((cardData) => {
-                console.log(cardData);
                 const newCard = createCard(cardData);
                 defaultCardList.addItem({ element: newCard, place: 'prepend'});
                 newPostPopup.close();
