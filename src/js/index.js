@@ -56,8 +56,19 @@ function createCard(cardData) {
             handleLikeClick: () => {
 
             },
-            handleDeleteClick: () => {
-                deleteConfirmPopup.open(cardData);
+            handleDeleteClick: (card) => {
+                deleteConfirmPopup.open();
+                deleteConfirmPopup.setSubmitHandler({
+                    submitHandler: () => {
+                        console.log(card);
+                        api.deleteCard(card.getId())
+                            .then(() => {
+                                card.deleteCard();
+                                deleteConfirmPopup.close();
+                            })
+                            .catch(err => console.error(`Произошла ошибка при удалении карточки ${err}`));
+                    }
+                });
             }
         }
     ).getCard();
@@ -65,16 +76,7 @@ function createCard(cardData) {
 
 // Создаём экземпляр класса попапа подтверждения удаления карточки
 const deleteConfirmPopup = new PopupWithSubmit({
-    popupSelector: '.popup_id_delete-confirm',
-    submitHandler: (card) => {
-        api.deleteCard(card)
-            .then(() => {
-                card.remove();
-                card = null;
-                deleteConfirmPopup.close();
-            })
-            .catch(err => console.error(`Произошла ошибка при удалении карточки ${err}`))
-    }
+    popupSelector: '.popup_id_delete-confirm'
 });
 
 deleteConfirmPopup.setEventListeners();

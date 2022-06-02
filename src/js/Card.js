@@ -36,6 +36,10 @@ export default class Card {
             .toggle('card__like_active');
     }
 
+    getId() {
+        return this._id;
+    }
+
     deleteCard() {
         // удаление карточки по клику на иконку мусорки
         this._element.remove();
