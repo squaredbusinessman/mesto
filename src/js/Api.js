@@ -72,7 +72,7 @@ export default class Api {
             .then(this._handleResponse);
     }
 
-    cardDislike = () => {
+    cardDislike = (id) => {
         return fetch(`${this._cardsUrl}/${id}/likes`, {
             method: 'DELETE',
             headers: this._headers

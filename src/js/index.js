@@ -30,6 +30,9 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
+// Id владельца страницы с карточками
+const userId = apiConfig.userId;
+
 // Создаем дефолтный список карточек, через экземпляр класса Section
 const defaultCardList = new Section({
     rendererFunction: (cardData) => {
@@ -49,18 +52,34 @@ function createCard(cardData) {
     return new Card(
         cardData,
         cardTemplateClass,
+        userId,
         {
             handleCardClick: () => {
                 bigPicturePopup.open(cardData);
             },
-            handleLikeClick: () => {
+            handleLikeClick: (card) => {
+                // получаем элемент конкретной карточки
+                const cardElement = card.returnDomElement();
 
+                // запускаем условную проверку на наличие поставленного лайка
+                if (cardElement.querySelector('.card__like_active')) {
+                    api.cardDislike(card.getId())
+                        .then(
+                            resCard => { card.activateLike(resCard['likes']) }
+                        )
+                        .catch(err => console.log(`Произошла ошибка при удалении лайка - Error: ${err}`))
+                } else {
+                    api.cardLike(card.getId())
+                        .then(
+                            resCard => { card.activateLike(resCard['likes']) }
+                        )
+                        .catch(err => console.log(`Произошла ошибка при установке лайка - Error: ${err}`))
+                }
             },
             handleDeleteClick: (card) => {
                 deleteConfirmPopup.open();
                 deleteConfirmPopup.setSubmitHandler({
                     submitHandler: () => {
-                        console.log(card);
                         api.deleteCard(card.getId())
                             .then(() => {
                                 card.deleteCard();
