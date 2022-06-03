@@ -59,7 +59,7 @@ export default class Api {
         return fetch(`${this._profileUrl}/avatar` , {
             method: 'PATCH',
             headers: this._headers,
-            body: JSON.stringify(newAvatarUrl)
+            body: JSON.stringify({ avatar: newAvatarUrl })
         })
             .then(this._handleResponse);
     }

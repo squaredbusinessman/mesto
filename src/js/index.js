@@ -27,6 +27,7 @@ const userSectionElement = document.querySelector('.user');
 const avatarUpdateButton = userSectionElement.querySelector('.user__avatar-editor-btn');
 const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
+const userAvatar = userSectionElement.querySelector('.user__avatar');
 
 // Необходимые элементы карточек
 const cardsContainer = document.querySelector('.cards');
@@ -107,9 +108,11 @@ const updateAvatarPopup = new PopupWithForm({
     popupSelector: '.popup_id_new-avatar'
 }, {
     submitCallback: () => {
-        api.updateAvatar(updateAvatarPopup.dataFromInputs)
-            .then(response => {
-                console.log(response);})
+        api.updateAvatar(updateAvatarPopup.dataFromInputs.newAvatarUrl)
+            .then(userData => {
+                userAvatar.src = userData.avatar;
+                updateAvatarPopup.close();
+            })
             .catch(err => console.log(`Произошла ошибка при обновлении аватара ${err}`))
     }
 });
@@ -166,6 +169,7 @@ const api = new Api(apiConfig);
 api.getProfile()
     .then((data) => {
         userData.setUserInfo(data);
+        userAvatar.src = data.avatar;
     })
     .catch((err) => console.log('Произошла ошибка ' + err));
 
