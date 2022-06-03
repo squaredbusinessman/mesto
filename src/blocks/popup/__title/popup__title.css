@@ -13,3 +13,7 @@
     line-height: 122%;
   }
 }
+
+.popup__form_type_avatar .popup__title {
+  margin-bottom: 24px;
+}

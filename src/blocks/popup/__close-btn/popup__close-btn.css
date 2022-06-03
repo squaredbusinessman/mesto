@@ -60,16 +60,16 @@
   }
 }
 
-.popup__form_type_confirm .popup__close-btn {
+.popup__form .popup__close-btn {
   right: -30px;
 }
 
-.popup__form_type_confirm .popup__close-btn:before {
+.popup__form .popup__close-btn:before {
   width: 32px;
   height: 4px;
 }
 
-.popup__form_type_confirm .popup__close-btn:after {
+.popup__form .popup__close-btn:after {
   width: 32px;
   height: 4px;
 }

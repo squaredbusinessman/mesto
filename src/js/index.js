@@ -20,9 +20,11 @@ const aboutInputElement = profileFormElement.querySelector('.popup__input_type_a
 
 const postFormElement = postPopup.querySelector('.popup__form');
 
+const updateAvatarFormElement = document.querySelector('.popup__form_type_avatar');
 
 // Необходимые элементы блока user
 const userSectionElement = document.querySelector('.user');
+const avatarUpdateButton = userSectionElement.querySelector('.user__avatar-editor-btn');
 const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 
@@ -85,7 +87,7 @@ function createCard(cardData) {
                                 card.deleteCard();
                                 deleteConfirmPopup.close();
                             })
-                            .catch(err => console.error(`Произошла ошибка при удалении карточки ${err}`));
+                            .catch(err => console.log(`Произошла ошибка при удалении карточки ${err}`))
                     }
                 });
             }
@@ -100,7 +102,19 @@ const deleteConfirmPopup = new PopupWithSubmit({
 
 deleteConfirmPopup.setEventListeners();
 
+// Создаём экземпляр класса попапа обновления аватара
+const updateAvatarPopup = new PopupWithForm({
+    popupSelector: '.popup_id_new-avatar'
+}, {
+    submitCallback: () => {
+        api.updateAvatar(updateAvatarPopup.dataFromInputs)
+            .then(response => {
+                console.log(response);})
+            .catch(err => console.log(`Произошла ошибка при обновлении аватара ${err}`))
+    }
+});
 
+updateAvatarPopup.setEventListeners();
 
 // Экземпляр класса данных пользователя
 const userData = new UserInfo({
@@ -162,6 +176,11 @@ api.getCards()
     })
     .catch((err) => console.log('Произошла ошибка ' + err));
 
+avatarUpdateButton.addEventListener('click', () => {
+    console.log(updateAvatarPopup);
+    updateAvatarPopup.prepareForm();
+    updateAvatarPopup.open();
+})
 
 nickEditButton.addEventListener('click', () => {
     // перенёс логику подготовки в обработчик открытия попапа
@@ -176,6 +195,9 @@ postAddButton.addEventListener('click', () => {
     newPostFormValidate.prepareForm();
     newPostPopup.open()
 });
+
+const updateAvatarFormValidate = new FormValidator(validationConfig, updateAvatarFormElement);
+updateAvatarFormValidate.enableValidation();
 
 const profileFormValidate = new FormValidator(validationConfig, profileFormElement);
 profileFormValidate.enableValidation();

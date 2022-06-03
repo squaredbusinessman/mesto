@@ -93,6 +93,7 @@
         <button
                 type="submit"
                 class="popup__save-btn"
+                aria-label="Кнопка отправки формы"
                 disabled
         >
           Сохранить
@@ -146,6 +147,7 @@
         <button
                 type="submit"
                 class="popup__save-btn"
+                aria-label="Кнопка отправки формы"
                 disabled
         >
           Создать
@@ -182,12 +184,13 @@
           name="deleteConfirmForm"
           action="#"
           method="post">
-      <p class="popup__question">
+      <h2 class="popup__title">
         Вы уверены?
-      </p>
+      </h2>
       <button
               type="submit"
               class="popup__save-btn"
+              aria-label="Кнопка отправки формы"
       >
         Да
       </button>
@@ -200,8 +203,41 @@
   </div>
 
 <!--  Попап изменения аватара пользователя -->
-  <div class="popup popup_id_new_avatar">
-
+  <div class="popup popup_id_new-avatar">
+    <form class="popup__form popup__form_type_avatar"
+          name="updateAvatar"
+          action="#"
+          method="post">
+      <h2 class="popup__title">
+        Обновить аватар
+      </h2>
+      <label class="popup__label">
+        <input
+                class="popup__input popup__input_type-url"
+                type="url"
+                id="avatar-url"
+                name="avatar-url"
+                placeholder="Ссылка на картинку"
+                aria-label="Поле ввода для ссылки на новый аватар"
+                pattern="https?://.+"
+                required
+        >
+        <span class="popup__input-error popup__input-place-name-error"></span>
+      </label>
+      <button
+              type="submit"
+              class="popup__save-btn"
+              aria-label="Кнопка отправки формы"
+              disabled
+      >
+        Сохранить
+      </button>
+      <button
+              type="button"
+              class="popup__close-btn"
+              aria-label="Кнопка закрытия попапа"
+      ></button>
+    </form>
   </div>
 
 </main>
