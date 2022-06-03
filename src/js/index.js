@@ -17,9 +17,7 @@ const postPopup = document.querySelector('.popup_id_new-post');
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const nameInputElement = profileFormElement.querySelector('.popup__input_type_name');
 const aboutInputElement = profileFormElement.querySelector('.popup__input_type_about');
-
 const postFormElement = postPopup.querySelector('.popup__form');
-
 const updateAvatarFormElement = document.querySelector('.popup__form_type_avatar');
 
 // Необходимые элементы блока user
@@ -34,7 +32,28 @@ const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
 // Id владельца страницы с карточками
-const userId = apiConfig.userId;
+let userId = '';
+
+function getUserId(id) {
+    return userId = id;
+}
+
+// Функция уведомления пользователя о процессе загрузки
+function renderLoading ({
+                            isLoading,
+                            popupDomElement,
+                            originalTextOnButton = 'Сохранить',
+                            loadingTextOnButton = 'Сохранение...'}) {
+    if (isLoading) {
+        popupDomElement
+            .querySelector('.popup__save-btn')
+            .textContent = loadingTextOnButton;
+    } else {
+        popupDomElement
+            .querySelector('.popup__save-btn')
+            .textContent = originalTextOnButton;
+    }
+}
 
 // Создаем дефолтный список карточек, через экземпляр класса Section
 const defaultCardList = new Section({
@@ -83,12 +102,26 @@ function createCard(cardData) {
                 deleteConfirmPopup.open();
                 deleteConfirmPopup.setSubmitHandler({
                     submitHandler: () => {
+                        renderLoading({
+                            isLoading: true,
+                            popupDomElement: deleteConfirmPopup.getDomElement(),
+                            loadingTextOnButton: 'Удаление...'
+                        });
+
                         api.deleteCard(card.getId())
                             .then(() => {
                                 card.deleteCard();
-                                deleteConfirmPopup.close();
                             })
                             .catch(err => console.log(`Произошла ошибка при удалении карточки ${err}`))
+                            .finally(() => {
+                                renderLoading({
+                                    isLoading: false,
+                                    popupDomElement: deleteConfirmPopup.getDomElement(),
+                                    originalTextOnButton: 'Да'
+                                });
+                            })
+
+                        deleteConfirmPopup.close();
                     }
                 });
             }
@@ -108,12 +141,24 @@ const updateAvatarPopup = new PopupWithForm({
     popupSelector: '.popup_id_new-avatar'
 }, {
     submitCallback: () => {
+        renderLoading({
+            isLoading: true,
+            popupDomElement: updateAvatarPopup.getDomElement()
+        });
+
         api.updateAvatar(updateAvatarPopup.dataFromInputs.newAvatarUrl)
             .then(userData => {
                 userAvatar.src = userData.avatar;
-                updateAvatarPopup.close();
             })
             .catch(err => console.log(`Произошла ошибка при обновлении аватара ${err}`))
+            .finally(() => {
+                renderLoading({
+                    isLoading: false,
+                    popupDomElement: updateAvatarPopup.getDomElement()
+                });
+            })
+
+        updateAvatarPopup.close();
     }
 });
 
@@ -130,13 +175,24 @@ const editProfilePopup = new PopupWithForm({
     popupSelector: '.popup_id_profile-edit',
 }, {
     submitCallback: () => {
+        renderLoading({
+            isLoading: true,
+            popupDomElement: editProfilePopup.getDomElement()
+        })
+
         api.updateProfile(editProfilePopup.dataFromInputs)
             .then((data) => {
                 userData.setUserInfo(data);
-                editProfilePopup.close();
             })
-            .catch(err => console.log(`Произошла ошибка при отправке новых данных пользователя ${err}`));
+            .catch(err => console.log(`Произошла ошибка при отправке новых данных пользователя ${err}`))
+            .finally(() => {
+                renderLoading({
+                    isLoading: false,
+                    popupDomElement: editProfilePopup.getDomElement()
+                });
+            })
 
+        editProfilePopup.close();
     }
 });
 
@@ -148,15 +204,28 @@ const newPostPopup = new PopupWithForm({
     popupSelector: '.popup_id_new-post'
 }, {
     submitCallback: () => {
+        console.log(newPostPopup);
+        renderLoading({
+            isLoading: true,
+            popupDomElement: newPostPopup.getDomElement(),
+            loadingTextOnButton: 'Создание...'
+        })
         // используя метод api отправляем новую карточку на сервер
         api.addCard(newPostPopup.dataFromInputs)
             .then((cardData) => {
                 const newCard = createCard(cardData);
                 defaultCardList.addItem({ element: newCard, place: 'prepend'});
-                newPostPopup.close();
             })
-            .catch(err => console.log(`Произошла ошибка при отправке данных новой карточки ${err}`));
+            .catch(err => console.log(`Произошла ошибка при отправке данных новой карточки ${err}`))
+            .finally(() => {
+                renderLoading({
+                    isLoading: false,
+                    popupDomElement: newPostPopup.getDomElement(),
+                    originalTextOnButton: 'Создать'
+                });
+            })
 
+        newPostPopup.close();
     }});
 
 // Инициализируем слушатели на попапе добавления новой карточки
@@ -170,15 +239,16 @@ api.getProfile()
     .then((data) => {
         userData.setUserInfo(data);
         userAvatar.src = data.avatar;
+        getUserId(data._id);
     })
-    .catch((err) => console.log('Произошла ошибка ' + err));
+    .catch((err) => console.log('Произошла ошибка при получении данных о пользователе ' + err));
 
 // Получаем данные о карточках ГЕТ-запросом
 api.getCards()
     .then((cardsData) => {
         defaultCardList.renderItems(cardsData); // Отрисовываем дефолтный список карточек
     })
-    .catch((err) => console.log('Произошла ошибка ' + err));
+    .catch((err) => console.log('Произошла ошибка при получении данных о карточках ' + err));
 
 avatarUpdateButton.addEventListener('click', () => {
     updateAvatarFormValidate.prepareForm();

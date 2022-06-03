@@ -13,5 +13,4 @@ export const apiConfig = {
         authorization: '7f1a4a53-4bab-4bd4-9a8f-30c3df078826',
         'Content-Type': 'application/json'
     },
-    userId: 'abf71472726170af2c2a2e82',
 }

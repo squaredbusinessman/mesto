@@ -17,6 +17,10 @@ export default class Popup {
         }
     }
 
+    getDomElement() {
+        return this._popup;
+    }
+
     open() { // публичный метод открытия попапа
         this._popup.classList.add('popup_visible');
 
