@@ -177,8 +177,7 @@ api.getCards()
     .catch((err) => console.log('Произошла ошибка ' + err));
 
 avatarUpdateButton.addEventListener('click', () => {
-    console.log(updateAvatarPopup);
-    updateAvatarPopup.prepareForm();
+    updateAvatarFormValidate.prepareForm();
     updateAvatarPopup.open();
 })
 
