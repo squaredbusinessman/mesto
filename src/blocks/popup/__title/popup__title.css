@@ -17,3 +17,7 @@
 .popup__form_type_avatar .popup__title {
   margin-bottom: 24px;
 }
+
+.popup__form_type_confirm .popup__title {
+  margin-bottom: 20px;
+}
