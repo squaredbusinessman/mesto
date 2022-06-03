@@ -11,7 +11,9 @@
 @import url(../blocks/header/__logo/header__logo.css);
 
 @import url(../blocks/user/user.css);
+@import url(../blocks/user/__avatar-wrapper/user__avatar-wrapper.css);
 @import url(../blocks/user/__avatar/user__avatar.css);
+@import url(../blocks/user/__avatar-editor-btn/user__avatar-editor-btn.css);
 @import url(../blocks/user/__text-wrapper/user__text-wrapper.css);
 @import url(../blocks/user/__name/user__name.css);
 @import url(../blocks/user/__about/user__about.css);
