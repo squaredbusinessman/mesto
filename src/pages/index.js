@@ -249,20 +249,6 @@ api.getAllData().then(
     }
 ).catch((err) => { `Произошла ошибка при получении данных с сервера ${err}` })
 
-/*// Получаем данные о пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
-api.getProfile()
-    .then((data) => {
-
-    })
-    .catch((err) => console.log('Произошла ошибка при получении данных о пользователе ' + err));
-
-// Получаем данные о карточках ГЕТ-запросом
-api.getCards()
-    .then((cardsData) => {
-
-    })
-    .catch((err) => console.log('Произошла ошибка при получении данных о карточках ' + err));*/
-
 // Слушатель кнопки обновления аватара
 avatarUpdateButton.addEventListener('click', () => {
     updateAvatarFormValidate.prepareForm();
