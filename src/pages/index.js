@@ -234,37 +234,51 @@ newPostPopup.setEventListeners();
 // Создаём экземпляр класса Апи
 const api = new Api(apiConfig);
 
-// Получаем данные о пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
+// Получаем сразу все необходимые для отрисовки данные с сервера
+api.getAllData().then(
+    (allData) => {
+        const [ user, cards ] = allData;
+
+        // Прокидываем данные в экземпляр класса пользователя
+        userData.setUserInfo(user);
+        userAvatar.src = user.avatar;
+        getUserId(user._id);
+
+        // Прокидываем данные в экземпляр класса карточек при загрузке приложения
+        defaultCardList.renderItems(cards); // Отрисовываем дефолтный список карточек
+    }
+).catch((err) => { `Произошла ошибка при получении данных с сервера ${err}` })
+
+/*// Получаем данные о пользователе с сервера, и сразу прокидываем их в блок информации о пользователе
 api.getProfile()
     .then((data) => {
-        userData.setUserInfo(data);
-        userAvatar.src = data.avatar;
-        getUserId(data._id);
+
     })
     .catch((err) => console.log('Произошла ошибка при получении данных о пользователе ' + err));
 
 // Получаем данные о карточках ГЕТ-запросом
 api.getCards()
     .then((cardsData) => {
-        defaultCardList.renderItems(cardsData); // Отрисовываем дефолтный список карточек
-    })
-    .catch((err) => console.log('Произошла ошибка при получении данных о карточках ' + err));
 
+    })
+    .catch((err) => console.log('Произошла ошибка при получении данных о карточках ' + err));*/
+
+// Слушатель кнопки обновления аватара
 avatarUpdateButton.addEventListener('click', () => {
     updateAvatarFormValidate.prepareForm();
     updateAvatarPopup.open();
 })
 
+// Слушатель кнопки редактировании информации пользователя
 nickEditButton.addEventListener('click', () => {
-    // перенёс логику подготовки в обработчик открытия попапа
     profileFormValidate.prepareForm();
     nameInputElement.value = userData.getUserInfo().name;
     aboutInputElement.value = userData.getUserInfo().about;
     editProfilePopup.open();
 });
 
+//Слушатель кнопки открытия формы создания новой карточки
 postAddButton.addEventListener('click', () => {
-    // перенёс логику подготовки в обработчик открытия попапа
     newPostFormValidate.prepareForm();
     newPostPopup.open()
 });
