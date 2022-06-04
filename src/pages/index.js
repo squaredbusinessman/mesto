@@ -1,13 +1,13 @@
-import '../pages/index.css';
-import {apiConfig, validationConfig} from './data.js';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import PopupWithForm from './PopupWithForm.js';
-import PopupWithImage from './PopupWithImage.js';
-import Section from './Section';
-import UserInfo from './UserInfo';
-import Api from './Api';
-import PopupWithSubmit from "./PopupWithSubmit";
+import './index.css';
+import {apiConfig, validationConfig} from '../components/data.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import Section from '../components/Section';
+import UserInfo from '../components/UserInfo';
+import Api from '../components/Api';
+import PopupWithSubmit from "../components/PopupWithSubmit";
 
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');

@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: { // точка входа
-        main: './src/js/index.js'
+        main: './src/pages/index.js'
     },
     output: { // точка выхода
         path: path.resolve(__dirname, 'dist'), // путь к точке выхода
