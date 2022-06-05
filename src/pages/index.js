@@ -32,10 +32,6 @@ const cardTemplateClass = '#card-template';
 // Id владельца страницы с карточками
 let userId;
 
-function setUserId(id) {
-    userId = id;
-}
-
 // Создаем дефолтный список карточек, через экземпляр класса Section
 const defaultCardList = new Section({
     rendererFunction: (cardData) => {
@@ -194,8 +190,7 @@ api.getAllData().then(
 
         // Прокидываем данные в экземпляр класса пользователя
         userData.setUserInfo(user);
-        setUserId(user._id);
-
+        userId = user._id;
         // Прокидываем данные в экземпляр класса карточек при загрузке приложения
         defaultCardList.renderItems(cards); // Отрисовываем дефолтный список карточек
     }
