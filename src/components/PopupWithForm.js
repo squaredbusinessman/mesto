@@ -11,7 +11,7 @@ export default class PopupWithForm extends Popup {
 
     }
 
-    _getInputValues() {
+    getInputValues() {
         // объект для данных из инпутов
         const inputsData = {};
         // Запись данных с инпутов в объект
@@ -31,7 +31,7 @@ export default class PopupWithForm extends Popup {
             evt.preventDefault();
 
             // передаём собранные данные во внешнюю функцию-обработчик, чтобы работать с ними извне
-            this._submitCallback(this._getInputValues());
+            this._submitCallback(this.getInputValues());
         });
 
         super.setEventListeners();

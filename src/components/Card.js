@@ -38,7 +38,7 @@ export default class Card {
             .cloneNode(true);
     }
 
-    _isLiked() {
+    isLiked() {
         return Boolean(this._likes.find(item => item._id === this._userId));
     }
 
@@ -52,12 +52,14 @@ export default class Card {
         // установка счетчика лайков
         this._likesCounterElement.textContent = this._likes.length;
 
-        if (this._isLiked()) {
+        if (this.isLiked()) {
             this._likeElement.classList.add('card__like_active');
         } else {
             this._likeElement.classList.remove('card__like_active');
         }
     }
+
+
 
     updateLikesView(likes) {
         this._likes = likes;

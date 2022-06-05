@@ -28,7 +28,6 @@ const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
 const userAvatar = userSectionElement.querySelector('.user__avatar');
 
 // Необходимые элементы карточек
-const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
 // Id владельца страницы с карточками
@@ -61,7 +60,7 @@ const defaultCardList = new Section({
         const card = createCard(cardData);
         defaultCardList.addItem({ element: card, place: 'append'});
     }
-}, cardsContainer);
+}, '.cards');
 
 // Создаём экземпляр класса попапа с картинкой
 const bigPicturePopup = new PopupWithImage({ popupSelector: '.popup_id_big-picture' });
@@ -80,11 +79,8 @@ function createCard(cardData) {
                 bigPicturePopup.open(cardData);
             },
             handleLikeClick: (card) => {
-                // получаем элемент конкретной карточки
-                const cardElement = card.returnDomElement();
-
                 // запускаем условную проверку на наличие поставленного лайка
-                if (cardElement.querySelector('.card__like_active')) {
+                if (card.isLiked())  {
                     api.cardDislike(card.getId())
                         .then((data) => {
                                 card.updateLikesView(data['likes'])
@@ -121,9 +117,9 @@ function createCard(cardData) {
                                     popupDomElement: deleteConfirmPopup.getDomElement(),
                                     originalTextOnButton: 'Да'
                                 });
-                            })
 
-                        deleteConfirmPopup.close();
+                                deleteConfirmPopup.close();
+                            })
                     }
                 });
             }
@@ -148,7 +144,7 @@ const updateAvatarPopup = new PopupWithForm({
             popupDomElement: updateAvatarPopup.getDomElement()
         });
 
-        api.updateAvatar(updateAvatarPopup.dataFromInputs.newAvatarUrl)
+        api.updateAvatar(updateAvatarPopup.getInputValues().newAvatarUrl)
             .then(userData => {
                 userAvatar.src = userData.avatar;
             })
@@ -158,9 +154,9 @@ const updateAvatarPopup = new PopupWithForm({
                     isLoading: false,
                     popupDomElement: updateAvatarPopup.getDomElement()
                 });
-            })
 
-        updateAvatarPopup.close();
+                updateAvatarPopup.close();
+            })
     }
 });
 
@@ -182,7 +178,7 @@ const editProfilePopup = new PopupWithForm({
             popupDomElement: editProfilePopup.getDomElement()
         })
 
-        api.updateProfile(editProfilePopup.dataFromInputs)
+        api.updateProfile(editProfilePopup.getInputValues())
             .then((data) => {
                 userData.setUserInfo(data);
             })
@@ -192,9 +188,8 @@ const editProfilePopup = new PopupWithForm({
                     isLoading: false,
                     popupDomElement: editProfilePopup.getDomElement()
                 });
+                editProfilePopup.close();
             })
-
-        editProfilePopup.close();
     }
 });
 
@@ -212,7 +207,7 @@ const newPostPopup = new PopupWithForm({
             loadingTextOnButton: 'Создание...'
         })
         // используя метод api отправляем новую карточку на сервер
-        api.addCard(newPostPopup.dataFromInputs)
+        api.addCard(newPostPopup.getInputValues())
             .then((cardData) => {
                 const newCard = createCard(cardData);
                 defaultCardList.addItem({ element: newCard, place: 'prepend'});
@@ -224,9 +219,8 @@ const newPostPopup = new PopupWithForm({
                     popupDomElement: newPostPopup.getDomElement(),
                     originalTextOnButton: 'Создать'
                 });
+                newPostPopup.close();
             })
-
-        newPostPopup.close();
     }});
 
 // Инициализируем слушатели на попапе добавления новой карточки

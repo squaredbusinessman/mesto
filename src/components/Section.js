@@ -1,7 +1,7 @@
 export default class Section {
     constructor({ rendererFunction }, containerSelector) {
         this._renderer = rendererFunction; // Функция отвечающая за создание и отрисовку данных
-        this._container = containerSelector; // Селектор контейнера для добавления созданных элементов
+        this._container = document.querySelector(containerSelector);
     }
 
     renderItems(itemsArray) {
