@@ -3,12 +3,13 @@ export default class Api {
         this._profileUrl = config.userUrl;
         this._cardsUrl = config.cardsUrl;
         this._headers = config.headers;
-        this._handleResponse = (response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return Promise.reject(`Произошла ошибка при обработке данных ${response.status}`);
-            }
+    }
+
+    _handleResponse = (response) => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            return Promise.reject(`Произошла ошибка при обработке данных ${response.status}`);
         }
     }
 
@@ -17,7 +18,7 @@ export default class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(this._handleResponse);
+            .then(this._handleResponse());
     }
 
     addCard = (data) => {
@@ -26,7 +27,7 @@ export default class Api {
             headers: this._headers,
             body: JSON.stringify(data)
         })
-            .then(this._handleResponse)
+            .then(this._handleResponse())
     }
 
     deleteCard = (id) => {
@@ -34,7 +35,7 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-            .then(this._handleResponse);
+            .then(this._handleResponse());
     }
 
     getProfile = () => {
@@ -42,7 +43,7 @@ export default class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(this._handleResponse);
+            .then(this._handleResponse());
     }
 
     updateProfile = (data) => {
@@ -51,7 +52,7 @@ export default class Api {
             headers: this._headers,
             body: JSON.stringify(data)
         })
-            .then(this._handleResponse)
+            .then(this._handleResponse())
 
     }
 
@@ -61,7 +62,7 @@ export default class Api {
             headers: this._headers,
             body: JSON.stringify({ avatar: newAvatarUrl })
         })
-            .then(this._handleResponse);
+            .then(this._handleResponse());
     }
 
     cardLike = (id) => {
@@ -69,7 +70,7 @@ export default class Api {
             method: 'PUT',
             headers: this._headers
         })
-            .then(this._handleResponse);
+            .then(this._handleResponse());
     }
 
     cardDislike = (id) => {
@@ -77,7 +78,7 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers
         })
-            .then(this._handleResponse);
+            .then(this._handleResponse());
     }
 
     getAllData = () => {
