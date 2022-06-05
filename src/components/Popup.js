@@ -1,7 +1,10 @@
 export default class Popup {
-    constructor({ popupSelector }) {
+    constructor({ popupSelector, buttonTextsObj }) {
+        this._popupSelector = popupSelector;
         this._popup = document.querySelector(popupSelector);
+        this._saveButton = this._popup.querySelector('.popup__save-btn');
         this._handleEscCloseBind = this._handleEscClose.bind(this);
+        this._buttonTexts = buttonTextsObj;
     }
 
     _handleEscClose(evt) { // приватный метод закрытия попапа нажатием Esc
@@ -14,6 +17,14 @@ export default class Popup {
         evt.stopPropagation();
         if (evt.target.classList.contains('popup')) {
             this.close();
+        }
+    }
+
+    renderLoading (isLoading) {
+        if (isLoading) {
+            this._saveButton.textContent = 'Сохранение...';
+        } else {
+            this._saveButton.textContent = this._buttonTexts[this._popupSelector];
         }
     }
 

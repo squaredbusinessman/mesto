@@ -1,5 +1,5 @@
 import './index.css';
-import {apiConfig, validationConfig} from '../utils/data.js';
+import {apiConfig, BUTTON_TEXTS, validationConfig} from '../utils/data.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -25,7 +25,6 @@ const userSectionElement = document.querySelector('.user');
 const avatarUpdateButton = userSectionElement.querySelector('.user__avatar-editor-btn');
 const nickEditButton = userSectionElement.querySelector('.user__nick-editor-btn');
 const postAddButton = userSectionElement.querySelector('.user__add-post-btn');
-const userAvatar = userSectionElement.querySelector('.user__avatar');
 
 // Необходимые элементы карточек
 const cardTemplateClass = '#card-template';
@@ -35,23 +34,6 @@ let userId;
 
 function setUserId(id) {
     return userId = id;
-}
-
-// Функция уведомления пользователя о процессе загрузки
-function renderLoading ({
-                            isLoading,
-                            popupDomElement,
-                            originalTextOnButton = 'Сохранить',
-                            loadingTextOnButton = 'Сохранение...'}) {
-    if (isLoading) {
-        popupDomElement
-            .querySelector('.popup__save-btn')
-            .textContent = loadingTextOnButton;
-    } else {
-        popupDomElement
-            .querySelector('.popup__save-btn')
-            .textContent = originalTextOnButton;
-    }
 }
 
 // Создаем дефолтный список карточек, через экземпляр класса Section
@@ -77,6 +59,7 @@ function createCard(cardData) {
         {
             handleCardClick: () => {
                 bigPicturePopup.open(cardData);
+
             },
             handleLikeClick: (card) => {
                 // запускаем условную проверку на наличие поставленного лайка
@@ -100,11 +83,7 @@ function createCard(cardData) {
                 deleteConfirmPopup.open();
                 deleteConfirmPopup.setSubmitHandler({
                     submitHandler: () => {
-                        renderLoading({
-                            isLoading: true,
-                            popupDomElement: deleteConfirmPopup.getDomElement(),
-                            loadingTextOnButton: 'Удаление...'
-                        });
+                        deleteConfirmPopup.renderLoading(true);
 
                         api.deleteCard(card.getId())
                             .then(() => {
@@ -112,12 +91,7 @@ function createCard(cardData) {
                             })
                             .catch(err => console.log(`Произошла ошибка при удалении карточки ${err}`))
                             .finally(() => {
-                                renderLoading({
-                                    isLoading: false,
-                                    popupDomElement: deleteConfirmPopup.getDomElement(),
-                                    originalTextOnButton: 'Да'
-                                });
-
+                                deleteConfirmPopup.renderLoading(false);
                                 deleteConfirmPopup.close();
                             })
                     }
@@ -129,32 +103,27 @@ function createCard(cardData) {
 
 // Создаём экземпляр класса попапа подтверждения удаления карточки
 const deleteConfirmPopup = new PopupWithSubmit({
-    popupSelector: '.popup_id_delete-confirm'
+    popupSelector: '.popup_id_delete-confirm',
+    buttonTextsObj: BUTTON_TEXTS
 });
 
 deleteConfirmPopup.setEventListeners();
 
 // Создаём экземпляр класса попапа обновления аватара
 const updateAvatarPopup = new PopupWithForm({
-    popupSelector: '.popup_id_new-avatar'
+    popupSelector: '.popup_id_new-avatar',
+    buttonTextsObj: BUTTON_TEXTS
 }, {
     submitCallback: () => {
-        renderLoading({
-            isLoading: true,
-            popupDomElement: updateAvatarPopup.getDomElement()
-        });
+        updateAvatarPopup.renderLoading(true);
 
         api.updateAvatar(updateAvatarPopup.getInputValues().newAvatarUrl)
-            .then(userData => {
-                userAvatar.src = userData.avatar;
+            .then(data => {
+                userData.setUserAvatar(data.avatar);
             })
             .catch(err => console.log(`Произошла ошибка при обновлении аватара ${err}`))
             .finally(() => {
-                renderLoading({
-                    isLoading: false,
-                    popupDomElement: updateAvatarPopup.getDomElement()
-                });
-
+                updateAvatarPopup.renderLoading(false);
                 updateAvatarPopup.close();
             })
     }
@@ -165,18 +134,17 @@ updateAvatarPopup.setEventListeners();
 // Экземпляр класса данных пользователя
 const userData = new UserInfo({
     userNameSelector: '.user__name',
-    userAboutSelector: '.user__about'
+    userAboutSelector: '.user__about',
+    userAvatarSelector: '.user__avatar'
 })
 
 // Создаём экземпляр класса для попапа с изменением информации юзера
 const editProfilePopup = new PopupWithForm({
     popupSelector: '.popup_id_profile-edit',
+    buttonTextsObj: BUTTON_TEXTS
 }, {
     submitCallback: () => {
-        renderLoading({
-            isLoading: true,
-            popupDomElement: editProfilePopup.getDomElement()
-        })
+        editProfilePopup.renderLoading(true);
 
         api.updateProfile(editProfilePopup.getInputValues())
             .then((data) => {
@@ -184,10 +152,7 @@ const editProfilePopup = new PopupWithForm({
             })
             .catch(err => console.log(`Произошла ошибка при отправке новых данных пользователя ${err}`))
             .finally(() => {
-                renderLoading({
-                    isLoading: false,
-                    popupDomElement: editProfilePopup.getDomElement()
-                });
+                editProfilePopup.renderLoading(false);
                 editProfilePopup.close();
             })
     }
@@ -198,27 +163,20 @@ editProfilePopup.setEventListeners();
 
 // Создаём экземпляр класса для попала нового поста
 const newPostPopup = new PopupWithForm({
-    popupSelector: '.popup_id_new-post'
+    popupSelector: '.popup_id_new-post',
+    buttonTextsObj: BUTTON_TEXTS
 }, {
-    submitCallback: () => {
-        renderLoading({
-            isLoading: true,
-            popupDomElement: newPostPopup.getDomElement(),
-            loadingTextOnButton: 'Создание...'
-        })
+    submitCallback: (data) => {
+        newPostPopup.renderLoading(true);
         // используя метод api отправляем новую карточку на сервер
-        api.addCard(newPostPopup.getInputValues())
+        api.addCard(data)
             .then((cardData) => {
                 const newCard = createCard(cardData);
                 defaultCardList.addItem({ element: newCard, place: 'prepend'});
             })
             .catch(err => console.log(`Произошла ошибка при отправке данных новой карточки ${err}`))
             .finally(() => {
-                renderLoading({
-                    isLoading: false,
-                    popupDomElement: newPostPopup.getDomElement(),
-                    originalTextOnButton: 'Создать'
-                });
+                newPostPopup.renderLoading(false);
                 newPostPopup.close();
             })
     }});
@@ -236,7 +194,6 @@ api.getAllData().then(
 
         // Прокидываем данные в экземпляр класса пользователя
         userData.setUserInfo(user);
-        userAvatar.src = user.avatar;
         setUserId(user._id);
 
         // Прокидываем данные в экземпляр класса карточек при загрузке приложения
@@ -253,8 +210,12 @@ avatarUpdateButton.addEventListener('click', () => {
 // Слушатель кнопки редактировании информации пользователя
 nickEditButton.addEventListener('click', () => {
     profileFormValidate.prepareForm();
-    nameInputElement.value = userData.getUserInfo().name;
-    aboutInputElement.value = userData.getUserInfo().about;
+
+    const { name, about } = userData.getUserInfo();
+
+    nameInputElement.value = name;
+    aboutInputElement.value = about;
+
     editProfilePopup.open();
 });
 

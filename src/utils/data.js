@@ -13,4 +13,11 @@ export const apiConfig = {
         authorization: '7f1a4a53-4bab-4bd4-9a8f-30c3df078826',
         'Content-Type': 'application/json'
     },
-}
+};
+
+export const BUTTON_TEXTS = {
+    '.popup_id_delete-confirm': 'Да',
+    '.popup_id_new-avatar': 'Сохранить',
+    '.popup_id_new-post': 'Создать',
+    '.popup_id_profile-edit': 'Сохранить',
+};
