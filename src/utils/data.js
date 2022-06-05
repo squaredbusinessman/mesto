@@ -20,4 +20,5 @@ export const BUTTON_TEXTS = {
     '.popup_id_new-avatar': 'Сохранить',
     '.popup_id_new-post': 'Создать',
     '.popup_id_profile-edit': 'Сохранить',
+    loadingText: 'Сохранение...',
 };

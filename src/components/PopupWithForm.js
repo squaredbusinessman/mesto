@@ -2,12 +2,13 @@ import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
     constructor({ popupSelector, buttonTextsObj }, { submitCallback }) {
-        super({ popupSelector, buttonTextsObj });
+        super({ popupSelector });
         this._submitCallback = submitCallback;
         // находим форму попапа
         this._form = this._popup.querySelector('.popup__form');
         // создаём массив из коллекции инпутов формы попапа
         this._inputs = this._form.querySelectorAll('.popup__input');
+        this._buttonTexts = buttonTextsObj;
 
     }
 
@@ -19,6 +20,14 @@ export default class PopupWithForm extends Popup {
 
 
         return inputsData;
+    }
+
+    renderLoading (isLoading) {
+        if (isLoading) {
+            this._saveButton.textContent = this._buttonTexts.loadingText;
+        } else {
+            this._saveButton.textContent = this._buttonTexts[this._popupSelector];
+        }
     }
 
     close() {
