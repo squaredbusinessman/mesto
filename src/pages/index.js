@@ -7,7 +7,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import Section from '../components/Section';
 import UserInfo from '../components/UserInfo';
 import Api from '../components/Api';
-import PopupWithSubmit from "../components/PopupWithSubmit";
+import PopupWithSubmit from '../components/PopupWithSubmit';
 
 // Используемые в проекте попапы и их общие элементы
 const profilePopup = document.querySelector('.popup_id_profile-edit');
@@ -87,13 +87,13 @@ function createCard(cardData) {
                 if (cardElement.querySelector('.card__like_active')) {
                     api.cardDislike(card.getId())
                         .then(
-                            resCard => { card.activateLike(resCard['likes']) }
+                            resCard => { card.updateLikesView(resCard['likes']) }
                         )
                         .catch(err => console.log(`Произошла ошибка при удалении лайка - Error: ${err}`))
                 } else {
                     api.cardLike(card.getId())
                         .then(
-                            resCard => { card.activateLike(resCard['likes']) }
+                            resCard => { card.updateLikesView(resCard['likes']) }
                         )
                         .catch(err => console.log(`Произошла ошибка при установке лайка - Error: ${err}`))
                 }
@@ -204,7 +204,6 @@ const newPostPopup = new PopupWithForm({
     popupSelector: '.popup_id_new-post'
 }, {
     submitCallback: () => {
-        console.log(newPostPopup);
         renderLoading({
             isLoading: true,
             popupDomElement: newPostPopup.getDomElement(),

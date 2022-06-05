@@ -6,6 +6,11 @@ export default class Card {
         this._id = data['_id'];
         this._ownerId = data['owner']['_id'];
         this._userId = userId;
+        this._likeElement = this._element.querySelector('.card__like');
+        this._likesCounterElement = this._element.querySelector('.card__likes-counter');
+        this._removeElement = this._element.querySelector('.card__remove');
+        this._picElement = this._element.querySelector('.card__pic');
+        this._titleElement = this._element.querySelector('.card__title');
         this._templateClass = templateClass;
         this._handleCardClick = handleCardClick;
         this._handleLikeClick = handleLikeClick;
@@ -14,56 +19,38 @@ export default class Card {
 
     _setEventListeners() {
         // обработчик лайка
-        this._element
-            .querySelector('.card__like')
-            .addEventListener('click', () => { this._handleLikeClick(this) });
+        this._likeElement.addEventListener('click', () => { this._handleLikeClick(this) });
 
         // обработчик удаления карточки
-        this._element
-            .querySelector('.card__remove')
-            .addEventListener('click', () => { this._handleDeleteClick(this) });
+        this._removeElement.addEventListener('click', () => { this._handleDeleteClick(this) });
 
         // обработчик открытия режима "большой картинки"
-        this._element
-            .querySelector('.card__pic')
-            .addEventListener('click', () => { this._handleCardClick() });
+        this._picElement.addEventListener('click', () => { this._handleCardClick() });
     }
 
-    _checkLike() {
-        this._likes.forEach((like) => {
-            if (like._id === this._userId) {
-                this._element
-                    .querySelector('.card__like')
-                    .classList
-                    .add('card__like_active');
-            } else {
-                this._element
-                    .querySelector('.card__like')
-                    .classList
-                    .remove('card__like_active');
-            }
-        })
+    _activateLike() {
+        if (this._isLiked()) {
+            this._likeElement.classList.add('card__like_active');
+        } else {
+            this._likeElement.classList.remove('card__like_active');
+        }
+    }
+
+    _isLiked() {
+        return this._likes.includes(this._userId);
     }
 
     _checkOwner() {
         if (this._ownerId !== this._userId) {
-            this._element
-                .querySelector('.card__remove')
-                .remove();
+            this._removeElement.remove();
         }
     }
 
-    activateLike(likes) {
-        // активация лайка на карточке
-        this._element
-            .querySelector('.card__like')
-            .classList
-            .toggle('card__like_active');
-
+    updateLikesView(likes) {
         // установка счетчика лайков
-        this._element
-            .querySelector('.card__likes-counter')
-            .textContent = likes.length;
+        this._likesCounterElement.textContent = likes.length;
+
+        this._activateLike();
     }
 
     getId() {
@@ -99,16 +86,15 @@ export default class Card {
         this._setEventListeners();
 
         // проверяем лайки
-        this._checkLike();
+        this._activateLike();
 
         // запустим проверку на владельца карточки, для правильного отображения иконки удаления
         this._checkOwner();
 
         // необходимые элементы клонированного шаблона карточки наполняем данными
-        this._element.querySelector('.card__pic').src = this._link;
-        this._element.querySelector('.card__pic').alt = this._name;
-        this._element.querySelector('.card__title').textContent = this._name;
-        this._element.querySelector('.card__likes-counter').textContent = this._likes.length;
+        this._picElement.src = this._link;
+        this._picElement.alt = this._name;
+        this._titleElement.textContent = this._name;
 
         // вернём элемент карточки наружу
         return this._element;
