@@ -42,7 +42,7 @@ export default class FormValidator {
         // Если есть хотя бы один невалидный инпут
         if (!this._validateForm.checkValidity()) {
             // сделай кнопку неактивной
-            this._submitButton.setAttribute('disabled', 'disabled');
+            this._handleDisableSubmit();
         } else {
             // иначе сделай кнопку активной
             this._submitButton.removeAttribute('disabled');
@@ -80,23 +80,15 @@ export default class FormValidator {
 
     prepareForm() {
         // метод подготовки попапа с формой для работы с пользователем
-        Array.from(this._validateForm.querySelectorAll(this._inputSelector))
-            .forEach((element) => {
+        this._inputList.forEach((element) => {
                 this._hideInputError(element);
         })
-        this._validateForm.reset();
+
         this._handleDisableSubmit();
     }
 
     enableValidation() {
-        // Добавим слушатель на отправку для формы
-        this._validateForm.addEventListener('submit', (evt) => {
-            // У каждой формы отменим стандартное поведение
-            evt.preventDefault();
-        });
-
-        // Для формы вызовем функцию setEventListeners,
-        // передав ей элемент формы
+        // Для формы вызовем функцию setEventListeners
         this._setEventListeners();
     }
 }
