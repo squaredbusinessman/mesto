@@ -88,11 +88,11 @@ function createCard(cardData) {
                         api.deleteCard(card.getId())
                             .then(() => {
                                 card.deleteCard();
+                                deleteConfirmPopup.close();
                             })
                             .catch(err => console.log(`Произошла ошибка при удалении карточки ${err}`))
                             .finally(() => {
                                 deleteConfirmPopup.renderLoading(false);
-                                deleteConfirmPopup.close();
                             })
                     }
                 });
@@ -120,11 +120,11 @@ const updateAvatarPopup = new PopupWithForm({
         api.updateAvatar(updateAvatarPopup.getInputValues().newAvatarUrl)
             .then(data => {
                 userData.setUserAvatar(data.avatar);
+                updateAvatarPopup.close();
             })
             .catch(err => console.log(`Произошла ошибка при обновлении аватара ${err}`))
             .finally(() => {
                 updateAvatarPopup.renderLoading(false);
-                updateAvatarPopup.close();
             })
     }
 });
@@ -149,11 +149,11 @@ const editProfilePopup = new PopupWithForm({
         api.updateProfile(editProfilePopup.getInputValues())
             .then((data) => {
                 userData.setUserInfo(data);
+                editProfilePopup.close();
             })
             .catch(err => console.log(`Произошла ошибка при отправке новых данных пользователя ${err}`))
             .finally(() => {
                 editProfilePopup.renderLoading(false);
-                editProfilePopup.close();
             })
     }
 });
@@ -173,11 +173,11 @@ const newPostPopup = new PopupWithForm({
             .then((cardData) => {
                 const newCard = createCard(cardData);
                 defaultCardList.addItem({ element: newCard, place: 'prepend'});
+                newPostPopup.close();
             })
             .catch(err => console.log(`Произошла ошибка при отправке данных новой карточки ${err}`))
             .finally(() => {
                 newPostPopup.renderLoading(false);
-                newPostPopup.close();
             })
     }});
 
