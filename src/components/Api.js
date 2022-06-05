@@ -52,7 +52,7 @@ export default class Api {
             headers: this._headers,
             body: JSON.stringify(data)
         })
-            .then(this._handleResponse())
+            .then((res) => this._handleResponse(res))
 
     }
 
