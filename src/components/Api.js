@@ -18,7 +18,7 @@ export default class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(this._handleResponse());
+            .then((res) => this._handleResponse(res));
     }
 
     addCard = (data) => {
@@ -27,7 +27,7 @@ export default class Api {
             headers: this._headers,
             body: JSON.stringify(data)
         })
-            .then(this._handleResponse())
+            .then((res) => this._handleResponse(res))
     }
 
     deleteCard = (id) => {
@@ -35,7 +35,7 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-            .then(this._handleResponse());
+            .then((res) => this._handleResponse(res))
     }
 
     getProfile = () => {
@@ -43,7 +43,7 @@ export default class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(this._handleResponse());
+            .then((res) => this._handleResponse(res))
     }
 
     updateProfile = (data) => {
@@ -62,7 +62,7 @@ export default class Api {
             headers: this._headers,
             body: JSON.stringify({ avatar: newAvatarUrl })
         })
-            .then(this._handleResponse());
+            .then((res) => this._handleResponse(res))
     }
 
     cardLike = (id) => {
@@ -70,7 +70,7 @@ export default class Api {
             method: 'PUT',
             headers: this._headers
         })
-            .then(this._handleResponse());
+            .then((res) => this._handleResponse(res));
     }
 
     cardDislike = (id) => {
@@ -78,7 +78,7 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers
         })
-            .then(this._handleResponse());
+            .then((res) => this._handleResponse(res));
     }
 
     getAllData = () => {
