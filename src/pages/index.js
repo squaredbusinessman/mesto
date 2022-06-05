@@ -33,7 +33,7 @@ const cardTemplateClass = '#card-template';
 let userId;
 
 function setUserId(id) {
-    return userId = id;
+    userId = id;
 }
 
 // Создаем дефолтный список карточек, через экземпляр класса Section
