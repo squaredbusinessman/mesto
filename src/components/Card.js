@@ -6,11 +6,6 @@ export default class Card {
         this._id = data['_id'];
         this._ownerId = data['owner']['_id'];
         this._userId = userId;
-        this._likeElement = this._element.querySelector('.card__like');
-        this._likesCounterElement = this._element.querySelector('.card__likes-counter');
-        this._removeElement = this._element.querySelector('.card__remove');
-        this._picElement = this._element.querySelector('.card__pic');
-        this._titleElement = this._element.querySelector('.card__title');
         this._templateClass = templateClass;
         this._handleCardClick = handleCardClick;
         this._handleLikeClick = handleLikeClick;
@@ -18,6 +13,12 @@ export default class Card {
     }
 
     _setEventListeners() {
+        this._likeElement = this._element.querySelector('.card__like');
+        this._likesCounterElement = this._element.querySelector('.card__likes-counter');
+        this._removeElement = this._element.querySelector('.card__remove');
+        this._picElement = this._element.querySelector('.card__pic');
+        this._titleElement = this._element.querySelector('.card__title');
+
         // обработчик лайка
         this._likeElement.addEventListener('click', () => { this._handleLikeClick(this) });
 
@@ -28,16 +29,17 @@ export default class Card {
         this._picElement.addEventListener('click', () => { this._handleCardClick() });
     }
 
-    _activateLike() {
-        if (this._isLiked()) {
-            this._likeElement.classList.add('card__like_active');
-        } else {
-            this._likeElement.classList.remove('card__like_active');
-        }
+    _getTemplate() {
+        // клонируем и возвращаем содержимое тега template
+        return document
+            .querySelector(this._templateClass)
+            .content
+            .querySelector('.card')
+            .cloneNode(true);
     }
 
     _isLiked() {
-        return this._likes.includes(this._userId);
+        return Boolean(this._likes.find(item => item._id === this._userId));
     }
 
     _checkOwner() {
@@ -46,10 +48,19 @@ export default class Card {
         }
     }
 
-    updateLikesView(likes) {
+    _activateLike() {
         // установка счетчика лайков
-        this._likesCounterElement.textContent = likes.length;
+        this._likesCounterElement.textContent = this._likes.length;
 
+        if (this._isLiked()) {
+            this._likeElement.classList.add('card__like_active');
+        } else {
+            this._likeElement.classList.remove('card__like_active');
+        }
+    }
+
+    updateLikesView(likes) {
+        this._likes = likes;
         this._activateLike();
     }
 
@@ -67,15 +78,6 @@ export default class Card {
 
         // нуллим карточку после удаления
         this._element = null;
-    }
-
-    _getTemplate() {
-        // клонируем и возвращаем содержимое тега template
-        return document
-            .querySelector(this._templateClass)
-            .content
-            .querySelector('.card')
-            .cloneNode(true);
     }
 
     getCard() {

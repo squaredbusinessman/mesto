@@ -32,9 +32,9 @@ const cardsContainer = document.querySelector('.cards');
 const cardTemplateClass = '#card-template';
 
 // Id владельца страницы с карточками
-let userId = '';
+let userId;
 
-function getUserId(id) {
+function setUserId(id) {
     return userId = id;
 }
 
@@ -86,14 +86,16 @@ function createCard(cardData) {
                 // запускаем условную проверку на наличие поставленного лайка
                 if (cardElement.querySelector('.card__like_active')) {
                     api.cardDislike(card.getId())
-                        .then(
-                            resCard => { card.updateLikesView(resCard['likes']) }
+                        .then((data) => {
+                                card.updateLikesView(data['likes'])
+                            }
                         )
                         .catch(err => console.log(`Произошла ошибка при удалении лайка - Error: ${err}`))
                 } else {
                     api.cardLike(card.getId())
-                        .then(
-                            resCard => { card.updateLikesView(resCard['likes']) }
+                        .then((data) => {
+                                card.updateLikesView(data['likes'])
+                            }
                         )
                         .catch(err => console.log(`Произошла ошибка при установке лайка - Error: ${err}`))
                 }
@@ -241,7 +243,7 @@ api.getAllData().then(
         // Прокидываем данные в экземпляр класса пользователя
         userData.setUserInfo(user);
         userAvatar.src = user.avatar;
-        getUserId(user._id);
+        setUserId(user._id);
 
         // Прокидываем данные в экземпляр класса карточек при загрузке приложения
         defaultCardList.renderItems(cards); // Отрисовываем дефолтный список карточек
